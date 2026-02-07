@@ -73,6 +73,13 @@ async function init() {
         setupControls();
         showLoading(false);
         updateConnectionStatus();
+        // Ensure wind data is loaded and visualized
+        if (windData.length === 0) {
+            await fetchWindData();
+        }
+        addWindSources();
+        updateVisualization();
+        updateDashboardMetrics();
     });
 }
 
@@ -97,24 +104,24 @@ async function fetchWindData() {
             const data = await response.json();
             const newData = data.data || data;
             
-            // Check if data changed
+            // Check if data changed or map is ready
             if (JSON.stringify(newData) !== JSON.stringify(windData)) {
                 windData = newData;
                 lastUpdate = new Date().toISOString();
                 
-                if (!map) {
+                // Update visualization if map is ready
+                if (map && map.loaded()) {
                     addWindSources();
-                } else {
                     updateVisualization();
+                    updateDashboardMetrics();
+                    updateLastUpdateTime();
+                    showUpdateIndicator();
+                    console.log(`📦 Data loaded: ${windData.length} wind points`);
                 }
-                updateDashboardMetrics();
-                updateLastUpdateTime();
-                showUpdateIndicator();
-                console.log(`📦 Data updated via polling`);
             }
         }
     } catch (e) {
-        console.log('Polling fetch failed:', e.message);
+        console.log('Fetch failed:', e.message);
     }
 }
 
