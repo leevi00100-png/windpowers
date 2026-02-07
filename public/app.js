@@ -290,10 +290,10 @@ function addWindSources() {
                 'interpolate', ['linear'], ['zoom'],
                 1, 30, 4, 50, 7, 70, 10, 90
             ],
-            // Lower opacity for subtle overlay
+            // Lower opacity for subtle overlay (40%)
             'heatmap-opacity': [
                 'interpolate', ['linear'], ['zoom'],
-                1, 0.5, 4, 0.6, 7, 0.7, 10, 0.5
+                1, 0.4, 4, 0.4, 7, 0.5, 10, 0.4
             ]
         }
     });
