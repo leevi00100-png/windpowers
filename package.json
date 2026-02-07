@@ -1,0 +1,17 @@
+{
+  "name": "windpowers",
+  "version": "1.0.0",
+  "description": "Nordic wind map with weather forecasts and electricity price predictions",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node src/server.js",
+    "fetch-data": "node scripts/fetch-wind-data.js",
+    "build": "echo 'Static build ready'",
+    "start": "node src/server.js"
+  },
+  "author": "Jarvis for Leevi",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

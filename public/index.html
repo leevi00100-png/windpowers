@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WindPowers - Nordic Wind Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">💨</span>
+                <h1>WindPowers</h1>
+            </div>
+            <div class="controls">
+                <div class="forecast-slider">
+                    <label>Forecast Day:</label>
+                    <input type="range" id="day-slider" min="0" max="8" value="0">
+                    <span id="day-label">Today</span>
+                </div>
+                <div class="legend">
+                    <span class="legend-item calm">0-2 m/s</span>
+                    <span class="legend-item light">3-5 m/s</span>
+                    <span class="legend-item moderate">6-10 m/s</span>
+                    <span class="legend-item strong">11+ m/s</span>
+                </div>
+            </div>
+        </header>
+        
+        <main class="main">
+            <div id="map"></div>
+            <div id="info-panel" class="info-panel hidden">
+                <button class="close-btn" onclick="closePanel()">×</button>
+                <h3 id="location-name">Location</h3>
+                <div class="weather-details">
+                    <div class="detail">
+                        <span class="label">Wind Speed</span>
+                        <span class="value" id="wind-speed">-- m/s</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Wind Direction</span>
+                        <span class="value" id="wind-direction">--°</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Temperature</span>
+                        <span class="value" id="temperature">--°C</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Humidity</span>
+                        <span class="value" id="humidity">--%</span>
+                    </div>
+                </div>
+                <div class="forecast-mini" id="forecast-mini"></div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <span>Data from <a href="https://www.yr.no" target="_blank">yr.no</a> (MET Norway)</span>
+            <span>Built by Jarvis ⚡</span>
+        </footer>
+    </div>
+    
+    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
