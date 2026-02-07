@@ -14,6 +14,7 @@ let windData = [];
 let currentDay = 0;
 let map = null;
 let markers = [];
+let arrowLayerAdded = false;
 let heatmapVisible = true;
 let socket = null;
 let isConnected = false;
@@ -323,6 +324,10 @@ function addWindSources() {
             'circle-blur': 0.2
         }
     });
+    
+    // Load arrow icon and add symbol layer for wind direction arrows
+    // This is much faster than DOM markers
+    loadArrowIcon();
 }
 
 function getWindGeoJSON() {
@@ -351,63 +356,93 @@ function updateVisualization() {
         source.setData(getWindGeoJSON());
     }
     
+    // Remove old DOM markers if any remain
     markers.forEach(m => m.remove());
     markers = [];
     
-    if (zoom >= 4) {
-        renderArrows(zoom);
-    }
+    // Arrow layer visibility is now controlled by minzoom/maxzoom in loadArrowIcon
+    // No need for manual show/hide based on zoom
 }
 
-function renderArrows(zoom) {
-    let skipFactor = 1;
-    if (zoom < 6) skipFactor = 9;
-    else if (zoom < 7) skipFactor = 4;
-    else if (zoom < 8) skipFactor = 2;
-    
-    windData.forEach((point, i) => {
-        if (i % skipFactor !== 0) return;
+function loadArrowIcon() {
+    // Load the arrow image for the symbol layer
+    map.loadImage('arrow.png', (error, image) => {
+        if (error) {
+            console.error('Failed to load arrow icon:', error);
+            return;
+        }
         
-        const forecast = point.forecasts[currentDay];
-        if (!forecast) return;
+        // Add the image to the map
+        map.addImage('wind-arrow', image);
         
-        const { windSpeed, windDirection } = forecast;
+        // Add the symbol layer for arrows
+        // Much faster than DOM markers - renders as WebGL
+        map.addLayer({
+            id: 'wind-arrows',
+            type: 'symbol',
+            source: 'wind-points',
+            minzoom: 4,
+            maxzoom: 15,
+            layout: {
+                'icon-image': 'wind-arrow',
+                'icon-size': [
+                    'interpolate', ['linear'], ['zoom'],
+                    4, 0.4,
+                    6, 0.5,
+                    8, 0.6,
+                    10, 0.7,
+                    12, 0.8
+                ],
+                'icon-rotate': ['get', 'windDirection'],
+                'icon-rotation-alignment': 'map',
+                'icon-allow-overlap': false,
+                'icon-ignore-placement': false,
+                'icon-optional': false,
+                'visibility': 'visible'
+            },
+            paint: {
+                'icon-opacity': [
+                    'interpolate', ['linear'], ['zoom'],
+                    4, 0.7, 7, 0.8, 10, 0.9, 12, 0.95
+                ],
+                'icon-color': [
+                    'interpolate', ['linear'], ['get', 'windSpeed'],
+                    0, '#3b82f6',
+                    3, '#22c55e',
+                    8, '#eab308',
+                    11, '#f97316',
+                    15, '#ef4444'
+                ]
+            }
+        });
         
-        const el = document.createElement('div');
-        el.className = 'wind-arrow-container';
+        arrowLayerAdded = true;
         
-        // Size increases with zoom but stays visible at low zoom
-        const baseSize = Math.max(14, Math.min(32, 10 + zoom * 1.5 + windSpeed * 0.5));
-        const size = baseSize;
+        // Add click handler for arrows
+        map.on('click', 'wind-arrows', (e) => {
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            
+            // Find the original point data
+            const point = windData.find(p => p.lon === coordinates[0] && p.lat === coordinates[1]);
+            if (point) {
+                showInfoPanel(point);
+            }
+        });
         
-        // Opacity remains visible at all zoom levels
-        const opacity = Math.min(0.95, 0.6 + (zoom - 4) * 0.1);
-        
-        el.innerHTML = `
-            <svg width="${size}" height="${size}" viewBox="0 0 24 24" 
-                 style="transform: rotate(${windDirection + 180}deg); opacity: ${opacity}; 
-                        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
-                <path d="M12 2 L8 12 L12 9 L16 12 Z" fill="${getWindColor(windSpeed)}"/>
-            </svg>
-        `;
-        
-        el.style.cssText = 'cursor: pointer;';
-        el.onclick = () => showInfoPanel(point);
-        
-        const marker = new maplibregl.Marker({ element: el })
-            .setLngLat([point.lon, point.lat])
-            .addTo(map);
-        
-        markers.push(marker);
+        // Change cursor on hover
+        map.on('mouseenter', 'wind-arrows', () => {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mouseleave', 'wind-arrows', () => {
+            map.getCanvas().style.cursor = '';
+        });
     });
 }
 
-function getWindColor(speed) {
-    if (speed < 3) return '#3b82f6';
-    if (speed < 5) return '#22c55e';
-    if (speed < 8) return '#eab308';
-    if (speed < 11) return '#f97316';
-    return '#ef4444';
+function renderArrows(zoom) {
+    // This function is no longer needed - arrows are now rendered as a symbol layer
+    // Kept for backwards compatibility but does nothing
+    console.log('renderArrows() is deprecated - using symbol layer instead');
 }
 
 function showInfoPanel(point) {
