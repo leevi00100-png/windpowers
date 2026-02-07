@@ -20,14 +20,14 @@ const CONFIG = {
         west: 4,       // Western Norway
         east: 32       // Eastern Finland
     },
-    gridResolution: 1.5,  // Degrees between points (1.5 = ~500 points)
+    gridResolution: 0.5,  // Degrees between points (0.5 = ~1500 points for smooth heatmap)
     outputFile: path.join(__dirname, '../public/data/wind-data.json'),
     // yr.no requires a User-Agent
     userAgent: 'WindPowers/1.0 (https://github.com/leevi00100-png/windpowers)'
 };
 
-// Rate limiting
-const DELAY_BETWEEN_REQUESTS = 500; // ms
+// Rate limiting (yr.no allows ~20 req/sec, we'll be conservative)
+const DELAY_BETWEEN_REQUESTS = 200; // ms
 const MAX_RETRIES = 3;
 
 // Generate grid points
