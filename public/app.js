@@ -77,46 +77,45 @@ async function init() {
 }
 
 function initSocket() {
-    socket = io();
+    // Use polling for Vercel/serverless (WebSockets not supported)
+    // Falls back to HTTP polling every 30 seconds
+    console.log('📡 Using polling mode for live updates');
+    isConnected = true;
+    updateConnectionStatus();
     
-    socket.on('connect', () => {
-        console.log('🔌 Connected to real-time server');
-        isConnected = true;
-        updateConnectionStatus();
-    });
+    // Fetch initial data
+    fetchWindData();
     
-    socket.on('disconnect', () => {
-        console.log('🔌 Disconnected from server');
-        isConnected = false;
-        updateConnectionStatus();
-    });
-    
-    socket.on('initialData', (data) => {
-        console.log(`📦 Received initial data: ${data.data.length} points`);
-        windData = data.data;
-        lastUpdate = data.timestamp;
-        
-        addWindSources();
-        updateVisualization();
-        updateDashboardMetrics();
-        showLoading(false);
-    });
-    
-    socket.on('weatherUpdate', (update) => {
-        console.log(`📡 Weather update received: ${update.updates.length} points changed`);
-        applyWeatherUpdate(update.updates);
-        lastUpdate = update.timestamp;
-        updateDashboardMetrics();
-        updateLastUpdateTime();
-    });
-    
-    socket.on('dayChanged', (day) => {
-        currentDay = day;
-        document.getElementById('day-slider').value = day;
-        document.getElementById('day-label').textContent = dayNames[day];
-        updateVisualization();
-        updateDashboardMetrics();
-    });
+    // Poll for updates every 30 seconds
+    setInterval(fetchWindData, 30000);
+}
+
+async function fetchWindData() {
+    try {
+        const response = await fetch('/data/wind-data.json');
+        if (response.ok) {
+            const data = await response.json();
+            const newData = data.data || data;
+            
+            // Check if data changed
+            if (JSON.stringify(newData) !== JSON.stringify(windData)) {
+                windData = newData;
+                lastUpdate = new Date().toISOString();
+                
+                if (!map) {
+                    addWindSources();
+                } else {
+                    updateVisualization();
+                }
+                updateDashboardMetrics();
+                updateLastUpdateTime();
+                showUpdateIndicator();
+                console.log(`📦 Data updated via polling`);
+            }
+        }
+    } catch (e) {
+        console.log('Polling fetch failed:', e.message);
+    }
 }
 
 function updateConnectionStatus() {
@@ -125,6 +124,7 @@ function updateConnectionStatus() {
     
     if (statusEl) {
         statusEl.textContent = isConnected ? '🟢 Live' : '🔴 Reconnecting...';
+        statusEl.title = isConnected ? 'Updates every 30 seconds' : 'Reconnecting...';
     }
     if (dotEl) {
         dotEl.className = isConnected ? 'status-dot live' : 'status-dot offline';
