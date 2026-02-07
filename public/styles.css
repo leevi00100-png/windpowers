@@ -144,17 +144,46 @@ body {
     left: 0;
 }
 
+/* Dashboard Layout Container */
+.dashboard-layout {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 50;
+    display: flex;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.dashboard-left,
+.dashboard-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    pointer-events: auto;
+}
+
+.dashboard-left {
+    flex: 1;
+    max-width: 320px;
+}
+
+.dashboard-right {
+    flex: 1;
+    max-width: 420px;
+    align-items: flex-start;
+}
+
 /* Dashboard Panel */
 .dashboard-panel {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
     background: var(--surface);
     border-radius: 1rem;
     padding: 1rem;
     box-shadow: var(--shadow-lg);
     z-index: 50;
-    min-width: 200px;
 }
 
 .dashboard-panel h4 {
@@ -207,15 +236,11 @@ body {
 
 /* Alerts Panel */
 .alerts-panel {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
     background: var(--surface);
     border-radius: 1rem;
     padding: 1rem;
     box-shadow: var(--shadow-lg);
     z-index: 50;
-    min-width: 180px;
 }
 
 .alerts-panel h4 {
@@ -463,14 +488,12 @@ body {
 
 /* Price Panel */
 .price-panel {
-    position: absolute;
-    bottom: 3rem;
-    left: 1rem;
     background: var(--surface);
     border-radius: 1rem;
     padding: 1rem;
     box-shadow: var(--shadow-lg);
     z-index: 50;
+    width: 100%;
     max-width: 400px;
 }
 
@@ -532,9 +555,6 @@ body {
 
 /* Legend Panel */
 .legend-panel {
-    position: absolute;
-    bottom: 3rem;
-    right: 1rem;
     background: var(--surface);
     border-radius: 0.75rem;
     padding: 0.75rem;
@@ -662,53 +682,43 @@ body {
     }
     
     /* Stack panels vertically, put map in background */
-    .dashboard-panel {
+    .dashboard-layout {
         position: relative;
-        top: auto;
-        left: auto;
-        right: auto;
-        bottom: auto;
-        margin: 0.5rem;
+        flex-direction: column;
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+    
+    .dashboard-left,
+    .dashboard-right {
+        flex: none;
+        max-width: none;
+        width: 100%;
+    }
+    
+    .dashboard-panel {
+        margin: 0;
         padding: 0.75rem;
         border-radius: 0.75rem;
-        order: 3;
     }
     
     .alerts-panel {
-        position: relative;
-        top: auto;
-        left: auto;
-        right: auto;
-        bottom: auto;
-        margin: 0.5rem;
+        margin: 0;
         padding: 0.75rem;
         border-radius: 0.75rem;
-        order: 4;
     }
     
     .price-panel {
-        position: relative;
-        top: auto;
-        left: auto;
-        right: auto;
-        bottom: auto;
-        margin: 0.5rem;
+        margin: 0;
         padding: 0.75rem;
         border-radius: 0.75rem;
         max-width: none;
-        order: 5;
     }
     
     .legend-panel {
-        position: relative;
-        top: auto;
-        left: auto;
-        right: auto;
-        bottom: auto;
-        margin: 0.5rem;
+        margin: 0;
         padding: 0.5rem;
         border-radius: 0.5rem;
-        order: 6;
     }
     
     .info-panel {

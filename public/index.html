@@ -34,73 +34,87 @@
             </div>
         </header>
         
+        <!-- Toggle Panels Button (mobile) -->
+        <button id="toggle-panels" class="toggle-panels-btn" title="Toggle data panels">
+            <span id="toggle-icon">📊</span>
+        </button>
+        
         <main class="main">
             <div id="map"></div>
             
-            <!-- Dashboard Metrics Panel -->
-            <div class="dashboard-panel">
-                <h4>📊 Live Metrics</h4>
-                <div class="metrics-grid">
-                    <div class="metric">
-                        <span class="metric-label">Avg Wind</span>
-                        <span class="metric-value" id="avg-wind">--</span>
-                        <span class="metric-unit">m/s</span>
+            <!-- Dashboard Layout Container -->
+            <div class="dashboard-layout">
+                <!-- LEFT Column: Weather Panels -->
+                <div class="dashboard-left">
+                    <!-- Dashboard Metrics Panel -->
+                    <div class="dashboard-panel">
+                        <h4>📊 Live Metrics</h4>
+                        <div class="metrics-grid">
+                            <div class="metric">
+                                <span class="metric-label">Avg Wind</span>
+                                <span class="metric-value" id="avg-wind">--</span>
+                                <span class="metric-unit">m/s</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Max Wind</span>
+                                <span class="metric-value" id="max-wind">--</span>
+                                <span class="metric-unit">m/s</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Min Temp</span>
+                                <span class="metric-value" id="min-temp">--</span>
+                                <span class="metric-unit">°C</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Max Temp</span>
+                                <span class="metric-value" id="max-temp">--</span>
+                                <span class="metric-unit">°C</span>
+                            </div>
+                        </div>
+                        <div class="last-update">
+                            Last update: <span id="last-update">--</span>
+                        </div>
                     </div>
-                    <div class="metric">
-                        <span class="metric-label">Max Wind</span>
-                        <span class="metric-value" id="max-wind">--</span>
-                        <span class="metric-unit">m/s</span>
+                    
+                    <!-- Alerts Panel -->
+                    <div class="alerts-panel">
+                        <h4>⚠️ Wind Alerts</h4>
+                        <div class="alert-count" id="alert-count">0</div>
+                        <div class="alert-threshold">≥12 m/s</div>
+                        <div class="alerts-list" id="alerts-list">
+                            <div class="no-alerts">No high wind alerts</div>
+                        </div>
                     </div>
-                    <div class="metric">
-                        <span class="metric-label">Min Temp</span>
-                        <span class="metric-value" id="min-temp">--</span>
-                        <span class="metric-unit">°C</span>
-                    </div>
-                    <div class="metric">
-                        <span class="metric-label">Max Temp</span>
-                        <span class="metric-value" id="max-temp">--</span>
-                        <span class="metric-unit">°C</span>
+                    
+                    <!-- Wind Legend -->
+                    <div class="legend-panel">
+                        <div class="legend-title">Wind Speed</div>
+                        <div class="legend-gradient"></div>
+                        <div class="legend-labels">
+                            <span>0</span>
+                            <span>5</span>
+                            <span>10</span>
+                            <span>15+ m/s</span>
+                        </div>
                     </div>
                 </div>
-                <div class="last-update">
-                    Last update: <span id="last-update">--</span>
-                </div>
-            </div>
-            
-            <!-- Alerts Panel -->
-            <div class="alerts-panel">
-                <h4>⚠️ Wind Alerts</h4>
-                <div class="alert-count" id="alert-count">0</div>
-                <div class="alert-threshold">≥12 m/s</div>
-                <div class="alerts-list" id="alerts-list">
-                    <div class="no-alerts">No high wind alerts</div>
+                
+                <!-- RIGHT Column: Electricity Panels -->
+                <div class="dashboard-right">
+                    <!-- Price Forecast Panel -->
+                    <div class="price-panel" id="price-panel">
+                        <h4>⚡ Energy Price Forecast (Finland)</h4>
+                        <div class="price-forecast" id="price-forecast"></div>
+                        <div class="price-note">
+                            <small>Prediction based on wind & temperature correlation</small>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <!-- Update Indicator -->
             <div id="update-indicator" class="update-indicator">
                 <span>🔄 Data Updated</span>
-            </div>
-            
-            <!-- Price Forecast Panel -->
-            <div class="price-panel" id="price-panel">
-                <h4>⚡ Energy Price Forecast (Finland)</h4>
-                <div class="price-forecast" id="price-forecast"></div>
-                <div class="price-note">
-                    <small>Prediction based on wind & temperature correlation</small>
-                </div>
-            </div>
-            
-            <!-- Wind Legend -->
-            <div class="legend-panel">
-                <div class="legend-title">Wind Speed</div>
-                <div class="legend-gradient"></div>
-                <div class="legend-labels">
-                    <span>0</span>
-                    <span>5</span>
-                    <span>10</span>
-                    <span>15+ m/s</span>
-                </div>
             </div>
             
             <!-- Location Info Panel -->
