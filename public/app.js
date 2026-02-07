@@ -746,3 +746,32 @@ function updateTurbineVisualization() {
         source.setData(getTurbineGeoJSON());
     }
 }
+
+// Toggle panels on mobile
+let panelsVisible = true;
+
+function initTogglePanels() {
+    const toggleBtn = document.getElementById('toggle-panels');
+    const panels = document.getElementById('panels-container') || document.querySelector('.dashboard-layout');
+    
+    if (toggleBtn && panels) {
+        toggleBtn.addEventListener('click', () => {
+            panelsVisible = !panelsVisible;
+            panels.classList.toggle('collapsed', !panelsVisible);
+            toggleBtn.classList.toggle('hidden', !panelsVisible);
+            
+            // Update icon
+            const icon = toggleBtn.querySelector('#toggle-icon');
+            if (icon) {
+                icon.textContent = panelsVisible ? '📊' : '🗺️';
+            }
+        });
+    }
+}
+
+// Initialize on DOM load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTogglePanels);
+} else {
+    initTogglePanels();
+}
