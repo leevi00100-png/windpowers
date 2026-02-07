@@ -328,7 +328,7 @@ async function init() {
 
 function setupLazyPanels() {
     // Lazy load panels when they come into view
-    const panels = document.querySelectorAll('.dashboard-panel, .alerts-panel, .price-panel');
+    const panels = document.querySelectorAll('.dashboard-panel, .alerts-panel, .price-panel, .legend-panel');
     
     panels.forEach(panel => {
         LazyLoader.observe(panel, (el) => {

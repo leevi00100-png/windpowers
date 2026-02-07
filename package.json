@@ -7,7 +7,8 @@
     "dev": "node src/server.js",
     "fetch-data": "node scripts/fetch-wind-data.js",
     "build": "echo 'Static build ready'",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "test": "node test/run-tests.js"
   },
   "author": "Jarvis for Leevi",
   "license": "MIT",
