@@ -628,47 +628,158 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
     .header {
-        flex-direction: column;
-        gap: 0.75rem;
-        padding: 0.75rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
     }
     
-    .controls {
-        width: 100%;
-        justify-content: space-between;
+    .logo h1 {
+        font-size: 1rem;
     }
     
-    .legend {
+    .tagline {
         display: none;
     }
     
+    .controls {
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+    
+    .forecast-slider {
+        padding: 0.35rem 0.75rem;
+    }
+    
+    .forecast-slider input[type="range"] {
+        width: 80px;
+    }
+    
+    #day-label {
+        font-size: 0.75rem;
+        min-width: 50px;
+    }
+    
+    /* Stack panels vertically, put map in background */
     .dashboard-panel {
+        position: relative;
         top: auto;
-        bottom: 12rem;
-        left: 0.5rem;
-        right: 0.5rem;
-        min-width: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        margin: 0.5rem;
+        padding: 0.75rem;
+        border-radius: 0.75rem;
+        order: 3;
     }
     
     .alerts-panel {
+        position: relative;
         top: auto;
-        bottom: 8rem;
-        right: 0.5rem;
-        min-width: auto;
-        max-width: 150px;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        margin: 0.5rem;
+        padding: 0.75rem;
+        border-radius: 0.75rem;
+        order: 4;
+    }
+    
+    .price-panel {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        margin: 0.5rem;
+        padding: 0.75rem;
+        border-radius: 0.75rem;
+        max-width: none;
+        order: 5;
+    }
+    
+    .legend-panel {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        margin: 0.5rem;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        order: 6;
     }
     
     .info-panel {
-        width: calc(100% - 2rem);
-        left: 1rem;
-        right: 1rem;
-        bottom: 4rem;
+        position: fixed;
         top: auto;
+        left: 0.5rem;
+        right: 0.5rem;
+        bottom: 0.5rem;
+        width: auto;
+        margin: 0;
+        border-radius: 0.75rem;
+        z-index: 100;
+    }
+    
+    .main {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    #map {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+        height: auto;
     }
     
     .footer {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.25rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 0.35rem 0.75rem;
+        font-size: 0.65rem;
+        background: rgba(255,255,255,0.95);
+        z-index: 50;
+    }
+    
+    .update-indicator {
+        top: auto;
+        bottom: 100px;
+        transform: translateX(-50%);
+    }
+    
+    .update-indicator.visible {
+        transform: translateX(-50%);
+    }
+    
+    .metrics-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .metric {
+        padding: 0.35rem;
+    }
+    
+    .metric-label {
+        font-size: 0.55rem;
+    }
+    
+    .metric-value {
+        font-size: 1rem;
+    }
+    
+    .price-indicator {
+        padding: 0.35rem 0.75rem;
+    }
+    
+    .price-value {
+        font-size: 0.9rem;
     }
 }
