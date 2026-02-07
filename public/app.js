@@ -1,13 +1,18 @@
 /**
  * WindPowers - Real-Time Dashboard Frontend
  * Uses Socket.IO for live weather updates
+ * Performance optimized with caching, lazy loading, and debouncing
  */
 
 const CONFIG = {
     center: [18, 63],
     zoom: 4,
     bounds: { north: 71.5, south: 54, west: 4, east: 32 },
-    gridResolution: 1.0
+    gridResolution: 1.0,
+    // Performance settings
+    cacheDuration: 60 * 60 * 1000, // 1 hour in ms
+    debounceDelay: 150, // ms for zoom/pan debounce
+    viewportPadding: 0.1 // 10% padding for viewport culling
 };
 
 let windData = [];
@@ -19,6 +24,210 @@ let heatmapVisible = true;
 let socket = null;
 let isConnected = false;
 let lastUpdate = null;
+let currentZoom = CONFIG.zoom;
+let viewportBounds = null;
+
+// Debounce helper
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Throttle helper for high-frequency events
+function throttle(func, limit) {
+    let inThrottle;
+    return function executedFunction(...args) {
+        if (!inThrottle) {
+            func(...args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
+// ============ CACHING SYSTEM ============
+
+const CacheManager = {
+    CACHE_KEY: 'windpowers_cache',
+    
+    save(key, data, ttlMs = CONFIG.cacheDuration) {
+        try {
+            const cacheEntry = {
+                data,
+                timestamp: Date.now(),
+                ttl: ttlMs
+            };
+            const cache = JSON.parse(localStorage.getItem(this.CACHE_KEY) || '{}');
+            cache[key] = cacheEntry;
+            localStorage.setItem(this.CACHE_KEY, JSON.stringify(cache));
+            console.log(`💾 Cached: ${key}`);
+        } catch (e) {
+            console.warn('Cache save failed:', e.message);
+        }
+    },
+    
+    load(key) {
+        try {
+            const cache = JSON.parse(localStorage.getItem(this.CACHE_KEY) || '{}');
+            const entry = cache[key];
+            if (!entry) return null;
+            
+            const isExpired = Date.now() - entry.timestamp > entry.ttl;
+            if (isExpired) {
+                delete cache[key];
+                localStorage.setItem(this.CACHE_KEY, JSON.stringify(cache));
+                return null;
+            }
+            
+            console.log(`📦 Cache hit: ${key}`);
+            return entry.data;
+        } catch (e) {
+            console.warn('Cache load failed:', e.message);
+            return null;
+        }
+    },
+    
+    isFresh(key, maxAgeMs = CONFIG.cacheDuration) {
+        try {
+            const cache = JSON.parse(localStorage.getItem(this.CACHE_KEY) || '{}');
+            const entry = cache[key];
+            if (!entry) return false;
+            
+            const age = Date.now() - entry.timestamp;
+            return age < maxAgeMs && age < entry.ttl;
+        } catch (e) {
+            return false;
+        }
+    },
+    
+    clear(key = null) {
+        try {
+            if (key) {
+                const cache = JSON.parse(localStorage.getItem(this.CACHE_KEY) || '{}');
+                delete cache[key];
+                localStorage.setItem(this.CACHE_KEY, JSON.stringify(cache));
+            } else {
+                localStorage.removeItem(this.CACHE_KEY);
+            }
+        } catch (e) {
+            console.warn('Cache clear failed:', e.message);
+        }
+    }
+};
+
+// ============ LAZY LOADING ============
+
+const LazyLoader = {
+    observers: new Map(),
+    
+    observe(element, callback, options = {}) {
+        if (!element) return;
+        
+        const defaultOptions = {
+            root: null,
+            rootMargin: '100px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    callback(entry.target);
+                    // Only trigger once unless specified
+                    if (!options.once) {
+                        observer.unobserve(entry.target);
+                    }
+                }
+            });
+        }, { ...defaultOptions, ...options });
+        
+        observer.observe(element);
+        this.observers.set(element, observer);
+    },
+    
+    unobserve(element) {
+        const observer = this.observers.get(element);
+        if (observer) {
+            observer.disconnect();
+            this.observers.delete(element);
+        }
+    },
+    
+    disconnectAll() {
+        this.observers.forEach(observer => observer.disconnect());
+        this.observers.clear();
+    }
+};
+
+// ============ VIEWPORT CULLING ============
+
+function getViewportBounds() {
+    if (!map || !map.loaded()) return null;
+    
+    const bounds = map.getBounds();
+    const padding = CONFIG.viewportPadding;
+    
+    return {
+        north: bounds.getNorth() + padding,
+        south: bounds.getSouth() - padding,
+        east: bounds.getEast() + padding,
+        west: bounds.getWest() - padding
+    };
+}
+
+function getVisiblePoints(points) {
+    const bounds = viewportBounds || getViewportBounds();
+    if (!bounds) return points; // Return all if no bounds yet
+    
+    return points.filter(point => 
+        point.lat >= bounds.south && 
+        point.lat <= bounds.north && 
+        point.lon >= bounds.west && 
+        point.lon <= bounds.east
+    );
+}
+
+function getFilteredGeoJSON() {
+    const zoom = map.getZoom();
+    let points = windData;
+    
+    // Always filter by viewport for performance
+    const visiblePoints = getVisiblePoints(points);
+    
+    // At low zoom, sample points to reduce rendering
+    if (zoom < 5) {
+        // Show every 4th point at zoom < 5
+        points = visiblePoints.filter((_, i) => i % 4 === 0);
+    } else if (zoom < 7) {
+        // Show every 2nd point at zoom 5-7
+        points = visiblePoints.filter((_, i) => i % 2 === 0);
+    } else {
+        points = visiblePoints;
+    }
+    
+    return {
+        type: 'FeatureCollection',
+        features: points.map(point => {
+            const forecast = point.forecasts[currentDay] || point.forecasts[0];
+            return {
+                type: 'Feature',
+                geometry: { type: 'Point', coordinates: [point.lon, point.lat] },
+                properties: {
+                    windSpeed: forecast?.windSpeed || 0,
+                    windDirection: forecast?.windDirection || 0,
+                    temperature: forecast?.temperature || 0
+                }
+            };
+        })
+    };
+}
 
 const dayNames = ['Today', 'Tomorrow', '+2 days', '+3 days', '+4 days', '+5 days', '+6 days', '+7 days', '+8 days'];
 
@@ -30,6 +239,25 @@ let dashboardMetrics = {
     maxTemperature: 0,
     alertCount: 0
 };
+
+// Debounced update functions
+const debouncedUpdateVisualization = debounce(() => {
+    const zoom = map.getZoom();
+    currentZoom = zoom;
+    viewportBounds = getViewportBounds();
+    
+    // Adjust heatmap properties based on zoom
+    updateHeatmapDetail(zoom);
+    
+    const source = map.getSource('wind-points');
+    if (source) {
+        source.setData(getFilteredGeoJSON());
+    }
+}, CONFIG.debounceDelay);
+
+const throttledFetchWindData = throttle(async (force = false) => {
+    await fetchWindData(force);
+}, 5000); // Max once per 5 seconds
 
 async function init() {
     showLoading(true);
@@ -67,25 +295,46 @@ async function init() {
 
     map.addControl(new maplibregl.NavigationControl(), 'top-left');
     
-    map.on('zoom', () => {
-        updateVisualization();
+    // Use debounced zoom handler
+    map.on('zoom', debouncedUpdateVisualization);
+    
+    // Use debounced moveend to update viewport
+    map.on('moveend', () => {
+        viewportBounds = getViewportBounds();
+        debouncedUpdateVisualization();
     });
 
     map.on('load', async () => {
         setupControls();
         showLoading(false);
         updateConnectionStatus();
-        // Ensure wind data is loaded and visualized
-        if (windData.length === 0) {
-            await fetchWindData();
-        }
+        
+        // Setup lazy loading for panels
+        setupLazyPanels();
+        
+        // Load cached data first, then fetch fresh
+        await fetchWindData(false);
+        
         addWindSources();
         updateVisualization();
         updateDashboardMetrics();
+        
         // Load turbine data
         await fetchTurbineData();
         addTurbineSources();
         updateTurbineVisualization();
+    });
+}
+
+function setupLazyPanels() {
+    // Lazy load panels when they come into view
+    const panels = document.querySelectorAll('.dashboard-panel, .alerts-panel, .price-panel');
+    
+    panels.forEach(panel => {
+        LazyLoader.observe(panel, (el) => {
+            el.classList.add('loaded');
+            console.log(`📊 Panel loaded: ${el.className}`);
+        }, { once: true });
     });
 }
 
@@ -96,24 +345,49 @@ function initSocket() {
     isConnected = true;
     updateConnectionStatus();
     
-    // Fetch initial data
+    // Fetch initial data (will use cache if available)
     fetchWindData();
     
-    // Poll for updates every 30 seconds
-    setInterval(fetchWindData, 30000);
+    // Poll for updates every 30 seconds (throttled)
+    setInterval(() => throttledFetchWindData(true), 30000);
 }
 
-async function fetchWindData() {
+async function fetchWindData(forceRefresh = false) {
     try {
+        // Check cache first unless force refresh
+        if (!forceRefresh && CacheManager.isFresh('windData', CONFIG.cacheDuration)) {
+            const cached = CacheManager.load('windData');
+            if (cached) {
+                windData = cached;
+                lastUpdate = cached._timestamp || lastUpdate;
+                
+                if (map && map.loaded()) {
+                    addWindSources();
+                    updateVisualization();
+                    updateDashboardMetrics();
+                    updateLastUpdateTime();
+                    showUpdateIndicator();
+                    console.log(`📦 Using cached data: ${windData.length} wind points`);
+                }
+                return;
+            }
+        }
+        
         const response = await fetch('/data/wind-data.json');
         if (response.ok) {
             const data = await response.json();
             const newData = data.data || data;
             
-            // Check if data changed or map is ready
+            // Check if data changed
             if (JSON.stringify(newData) !== JSON.stringify(windData)) {
                 windData = newData;
                 lastUpdate = new Date().toISOString();
+                
+                // Add timestamp for caching
+                windData._timestamp = lastUpdate;
+                
+                // Cache the data
+                CacheManager.save('windData', windData);
                 
                 // Update visualization if map is ready
                 if (map && map.loaded()) {
@@ -128,6 +402,19 @@ async function fetchWindData() {
         }
     } catch (e) {
         console.log('Fetch failed:', e.message);
+        
+        // Try to load from cache on error
+        if (!forceRefresh) {
+            const cached = CacheManager.load('windData');
+            if (cached) {
+                windData = cached;
+                if (map && map.loaded()) {
+                    updateVisualization();
+                    updateDashboardMetrics();
+                    console.log(`📦 Fallback to cache: ${windData.length} wind points`);
+                }
+            }
+        }
     }
 }
 
@@ -331,9 +618,21 @@ function addWindSources() {
 }
 
 function getWindGeoJSON() {
+    const zoom = map.getZoom();
+    let points = windData;
+    
+    // At low zoom, sample points to reduce rendering
+    if (zoom < 5) {
+        // Show every 4th point at zoom < 5
+        points = windData.filter((_, i) => i % 4 === 0);
+    } else if (zoom < 7) {
+        // Show every 2nd point at zoom 5-7
+        points = windData.filter((_, i) => i % 2 === 0);
+    }
+    
     return {
         type: 'FeatureCollection',
-        features: windData.map(point => {
+        features: points.map(point => {
             const forecast = point.forecasts[currentDay] || point.forecasts[0];
             return {
                 type: 'Feature',
@@ -348,12 +647,47 @@ function getWindGeoJSON() {
     };
 }
 
+function updateHeatmapDetail(zoom) {
+    // Adjust heatmap radius based on zoom for better performance
+    const heatmapLayer = map.getLayer('wind-heat');
+    if (heatmapLayer) {
+        if (zoom < 5) {
+            // Reduce detail at low zoom
+            map.setPaintProperty('wind-heat', 'heatmap-radius', [
+                'interpolate', ['linear'], ['zoom'],
+                1, 60, 4, 80, 7, 100
+            ]);
+            map.setPaintProperty('wind-heat', 'heatmap-weight', [
+                'interpolate', ['linear'], ['get', 'windSpeed'],
+                0, 0.3, 5, 0.5, 10, 0.7, 15, 0.9
+            ]);
+        } else {
+            // Full detail at higher zoom
+            map.setPaintProperty('wind-heat', 'heatmap-radius', [
+                'interpolate', ['linear'], ['zoom'],
+                1, 30, 4, 50, 7, 70, 10, 90
+            ]);
+            map.setPaintProperty('wind-heat', 'heatmap-weight', [
+                'interpolate', ['linear'], ['get', 'windSpeed'],
+                0, 0.2, 5, 0.4, 10, 0.6, 15, 0.8
+            ]);
+        }
+    }
+}
+
 function updateVisualization() {
     const zoom = map.getZoom();
+    currentZoom = zoom;
+    viewportBounds = getViewportBounds();
+    
+    // Update heatmap detail based on zoom
+    updateHeatmapDetail(zoom);
+    
     const source = map.getSource('wind-points');
     
     if (source) {
-        source.setData(getWindGeoJSON());
+        // Use filtered GeoJSON for better performance
+        source.setData(getFilteredGeoJSON());
     }
     
     // Remove old DOM markers if any remain
@@ -598,20 +932,58 @@ document.addEventListener('DOMContentLoaded', () => {
     loadPricePredictions();
 });
 
-// ==================== TURBINE FUNCTIONS ====================
+// ============ TURBINE FUNCTIONS ============
+
+let turbineData = [];
 
 async function fetchTurbineData() {
     try {
+        // Check cache first
+        const cached = CacheManager.load('turbineData');
+        if (cached) {
+            turbineData = cached;
+            console.log(`🌀 Using cached turbine data: ${turbineData.length} locations`);
+            return;
+        }
+        
         const response = await fetch('/data/turbines-finland.json');
         if (response.ok) {
             const data = await response.json();
             turbineData = data.turbines || [];
+            // Cache turbine data
+            CacheManager.save('turbineData', turbineData, CONFIG.cacheDuration);
             console.log(`🌀 Loaded ${turbineData.length} wind farm locations`);
         }
     } catch (e) {
         console.log('No turbine data available');
         turbineData = [];
     }
+}
+
+function getTurbineGeoJSON() {
+    const zoom = map.getZoom();
+    let turbines = turbineData;
+    
+    // At low zoom, reduce turbine detail
+    if (zoom < 5) {
+        turbines = turbineData.filter((_, i) => i % 2 === 0);
+    }
+    
+    return {
+        type: 'FeatureCollection',
+        features: turbines.map(turbine => ({
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [turbine.lon, turbine.lat]
+            },
+            properties: {
+                name: turbine.name,
+                count: turbine.count,
+                type: turbine.type
+            }
+        }))
+    };
 }
 
 function addTurbineSources() {
