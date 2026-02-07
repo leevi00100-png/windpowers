@@ -489,18 +489,18 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
     padding: 0.5rem 1rem;
     border-radius: 2rem;
     font-weight: 600;
 }
 
-.price-indicator.low { background: linear-gradient(135deg, #dcfce7, #bbf7d0); }
-.price-indicator.high { background: linear-gradient(135deg, #fee2e2, #fecaca); }
+.price-indicator.low { background: linear-gradient(135deg, #cffafe, #a5f3fc); }
+.price-indicator.high { background: linear-gradient(135deg, #fbcfe8, #f9a8d4); }
 
 .price-label {
     font-size: 0.7rem;
-    color: #92400e;
+    color: #4c1d95;
     text-transform: uppercase;
 }
 
@@ -554,9 +554,9 @@ body {
     transform: translateX(4px);
 }
 
-.price-day.low { background: #dcfce7; }
-.price-day.normal { background: #fef3c7; }
-.price-day.high { background: #fee2e2; }
+.price-day.low { background: #cffafe; }
+.price-day.normal { background: #ddd6fe; }
+.price-day.high { background: #fbcfe8; }
 .price-day.active { outline: 2px solid var(--primary); }
 
 .price-day .day-name {
