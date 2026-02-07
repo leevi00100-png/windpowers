@@ -2,67 +2,56 @@
 // Built by Jarvis ⚡
 
 const CONFIG = {
-    // Nordic bounds: Norway, Sweden, Finland, Denmark
-    center: [18, 63], // Centered on Sweden
+    center: [18, 63],
     zoom: 4,
-    bounds: {
-        north: 71.5,
-        south: 54,
-        west: 4,
-        east: 32
-    },
-    // Grid resolution in degrees
-    gridResolution: 1.0,
-    // yr.no API
-    apiBase: '/api/weather'
+    bounds: { north: 71.5, south: 54, west: 4, east: 32 },
+    gridResolution: 1.0
 };
 
-// Wind data storage
 let windData = [];
 let currentDay = 0;
 let map = null;
-let windLayer = null;
 let markers = [];
+let heatmapVisible = true;
 
-// Day names
 const dayNames = ['Today', 'Tomorrow', '+2 days', '+3 days', '+4 days', '+5 days', '+6 days', '+7 days', '+8 days'];
 
-// Initialize the application
 async function init() {
     showLoading(true);
     
-    // Initialize map
     map = new maplibregl.Map({
         container: 'map',
         style: {
             version: 8,
             sources: {
-                'osm': {
+                'carto-light': {
                     type: 'raster',
                     tiles: [
-                        'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
+                        'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png',
+                        'https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png'
                     ],
                     tileSize: 256,
-                    attribution: '© OpenStreetMap contributors'
+                    attribution: '© CartoDB © OpenStreetMap'
                 }
             },
             layers: [{
-                id: 'osm-layer',
+                id: 'carto-layer',
                 type: 'raster',
-                source: 'osm',
+                source: 'carto-light',
                 minzoom: 0,
                 maxzoom: 19
             }]
         },
         center: CONFIG.center,
-        zoom: CONFIG.zoom,
-        maxBounds: [[CONFIG.bounds.west - 2, CONFIG.bounds.south - 2], 
-                    [CONFIG.bounds.east + 2, CONFIG.bounds.north + 2]]
+        zoom: CONFIG.zoom
     });
 
     map.addControl(new maplibregl.NavigationControl(), 'top-left');
+    
+    // Update visualization on zoom
+    map.on('zoom', () => {
+        updateVisualization();
+    });
 
     map.on('load', async () => {
         await loadWindData();
@@ -71,7 +60,6 @@ async function init() {
     });
 }
 
-// Generate grid points for Nordic region
 function generateGridPoints() {
     const points = [];
     const { north, south, west, east } = CONFIG.bounds;
@@ -81,109 +69,175 @@ function generateGridPoints() {
             points.push({ lat: Math.round(lat * 100) / 100, lon: Math.round(lon * 100) / 100 });
         }
     }
-    
     return points;
 }
 
-// Load wind data from API or cache
 async function loadWindData() {
     try {
-        // Try to load cached data first
         const response = await fetch('/data/wind-data.json');
         if (response.ok) {
-            windData = await response.json();
+            const cached = await response.json();
+            windData = cached.data || cached;
             console.log(`Loaded ${windData.length} wind data points`);
-            renderWind();
-            return;
         }
     } catch (e) {
-        console.log('No cached data, using sample data');
+        console.log('Using sample data');
     }
     
-    // Use sample/demo data for now
-    windData = generateSampleData();
-    renderWind();
+    if (!windData.length) {
+        windData = generateSampleData();
+    }
+    
+    // Add heatmap source
+    addWindSources();
+    updateVisualization();
 }
 
-// Generate sample data for demo
 function generateSampleData() {
     const points = generateGridPoints();
-    const data = [];
-    
-    points.forEach(point => {
-        // Generate 9 days of forecast
+    return points.map(point => {
         const forecasts = [];
-        let baseSpeed = 3 + Math.random() * 8;
-        let baseDir = Math.random() * 360;
-        let baseTemp = -5 + Math.random() * 15;
+        // Create realistic wind patterns - stronger near coasts, variable inland
+        const coastFactor = Math.min(1, Math.abs(point.lon - 10) / 15); // Distance from Atlantic
+        let baseSpeed = 2 + Math.random() * 6 + coastFactor * 4;
+        let baseDir = 200 + Math.random() * 60; // Prevailing westerlies
+        let baseTemp = 5 - (point.lat - 55) * 0.5 + Math.random() * 5;
         
         for (let day = 0; day < 9; day++) {
             forecasts.push({
                 day,
-                windSpeed: Math.max(0, baseSpeed + (Math.random() - 0.5) * 4),
-                windDirection: (baseDir + (Math.random() - 0.5) * 40 + 360) % 360,
-                temperature: baseTemp + (Math.random() - 0.5) * 5,
-                humidity: 50 + Math.random() * 40
+                windSpeed: Math.max(0.5, baseSpeed + (Math.random() - 0.5) * 3),
+                windDirection: (baseDir + (Math.random() - 0.5) * 30 + 360) % 360,
+                temperature: baseTemp + (Math.random() - 0.5) * 4,
+                humidity: 60 + Math.random() * 30
             });
-            
-            // Drift values for next day
-            baseSpeed += (Math.random() - 0.5) * 2;
-            baseDir += (Math.random() - 0.5) * 20;
-            baseTemp += (Math.random() - 0.5) * 3;
+            baseSpeed += (Math.random() - 0.5) * 1.5;
+            baseDir += (Math.random() - 0.5) * 15;
         }
-        
-        data.push({
-            lat: point.lat,
-            lon: point.lon,
-            forecasts
-        });
+        return { lat: point.lat, lon: point.lon, forecasts };
     });
-    
-    return data;
 }
 
-// Render wind arrows on map
-function renderWind() {
-    // Clear existing markers
+function addWindSources() {
+    // Add GeoJSON source for wind data
+    map.addSource('wind-points', {
+        type: 'geojson',
+        data: getWindGeoJSON()
+    });
+    
+    // Heatmap layer - visible at low zoom
+    map.addLayer({
+        id: 'wind-heat',
+        type: 'heatmap',
+        source: 'wind-points',
+        maxzoom: 8,
+        paint: {
+            'heatmap-weight': ['interpolate', ['linear'], ['get', 'windSpeed'], 0, 0, 3, 0.3, 6, 0.6, 10, 0.9, 15, 1],
+            'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 0, 0.5, 6, 1, 9, 1.5],
+            'heatmap-color': [
+                'interpolate', ['linear'], ['heatmap-density'],
+                0, 'rgba(255,255,255,0)',
+                0.1, 'rgba(200,230,255,0.4)',
+                0.3, 'rgba(100,180,255,0.5)',
+                0.5, 'rgba(50,200,150,0.6)',
+                0.7, 'rgba(255,200,50,0.7)',
+                0.9, 'rgba(255,100,50,0.8)',
+                1, 'rgba(220,50,50,0.9)'
+            ],
+            'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 20, 4, 35, 6, 50, 9, 80],
+            'heatmap-opacity': ['interpolate', ['linear'], ['zoom'], 5, 0.9, 7, 0.6, 9, 0.3]
+        }
+    });
+    
+    // Circle layer - shows at medium zoom
+    map.addLayer({
+        id: 'wind-circles',
+        type: 'circle',
+        source: 'wind-points',
+        minzoom: 5,
+        paint: {
+            'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 4, 7, 8, 10, 15],
+            'circle-color': [
+                'interpolate', ['linear'], ['get', 'windSpeed'],
+                0, '#93c5fd',   // Light blue - calm
+                3, '#3b82f6',   // Blue
+                5, '#22c55e',   // Green
+                8, '#eab308',   // Yellow
+                11, '#f97316',  // Orange
+                15, '#ef4444'   // Red - strong
+            ],
+            'circle-opacity': ['interpolate', ['linear'], ['zoom'], 5, 0.3, 7, 0.6, 9, 0.8],
+            'circle-stroke-width': 1,
+            'circle-stroke-color': 'rgba(255,255,255,0.5)',
+            'circle-blur': ['interpolate', ['linear'], ['zoom'], 5, 0.8, 8, 0.3]
+        }
+    });
+}
+
+function getWindGeoJSON() {
+    return {
+        type: 'FeatureCollection',
+        features: windData.map(point => {
+            const forecast = point.forecasts[currentDay] || point.forecasts[0];
+            return {
+                type: 'Feature',
+                geometry: { type: 'Point', coordinates: [point.lon, point.lat] },
+                properties: {
+                    windSpeed: forecast?.windSpeed || 0,
+                    windDirection: forecast?.windDirection || 0,
+                    temperature: forecast?.temperature || 0
+                }
+            };
+        })
+    };
+}
+
+function updateVisualization() {
+    const zoom = map.getZoom();
+    
+    // Update GeoJSON data
+    const source = map.getSource('wind-points');
+    if (source) {
+        source.setData(getWindGeoJSON());
+    }
+    
+    // Clear and redraw arrows at high zoom
     markers.forEach(m => m.remove());
     markers = [];
     
-    windData.forEach(point => {
+    if (zoom >= 6) {
+        renderArrows(zoom);
+    }
+}
+
+function renderArrows(zoom) {
+    // Determine arrow density based on zoom
+    const skipFactor = zoom < 7 ? 2 : 1;
+    
+    windData.forEach((point, i) => {
+        if (i % skipFactor !== 0) return;
+        
         const forecast = point.forecasts[currentDay];
         if (!forecast) return;
         
         const { windSpeed, windDirection } = forecast;
         
-        // Create wind arrow element
+        // Create arrow element
         const el = document.createElement('div');
-        el.className = 'wind-marker';
-        el.style.cssText = `
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+        el.className = 'wind-arrow-container';
+        
+        const size = Math.max(16, Math.min(32, 12 + windSpeed * 1.5));
+        const opacity = Math.min(0.9, 0.4 + (zoom - 6) * 0.15);
+        
+        el.innerHTML = `
+            <svg width="${size}" height="${size}" viewBox="0 0 24 24" 
+                 style="transform: rotate(${windDirection + 180}deg); opacity: ${opacity}; 
+                        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
+                <path d="M12 2 L8 12 L12 9 L16 12 Z" fill="${getWindColor(windSpeed)}"/>
+            </svg>
         `;
         
-        const arrow = document.createElement('div');
-        const color = getWindColor(windSpeed);
-        const size = Math.min(24, 10 + windSpeed * 1.5);
-        
-        arrow.style.cssText = `
-            width: 0;
-            height: 0;
-            border-left: ${size/3}px solid transparent;
-            border-right: ${size/3}px solid transparent;
-            border-bottom: ${size}px solid ${color};
-            transform: rotate(${windDirection}deg);
-            transition: transform 0.5s ease;
-            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
-        `;
-        
-        el.appendChild(arrow);
-        
-        // Add click handler
+        el.style.cssText = 'cursor: pointer;';
         el.onclick = () => showInfoPanel(point);
         
         const marker = new maplibregl.Marker({ element: el })
@@ -194,20 +248,19 @@ function renderWind() {
     });
 }
 
-// Get color based on wind speed
 function getWindColor(speed) {
-    if (speed < 3) return '#22c55e';      // Green - calm
-    if (speed < 6) return '#eab308';       // Yellow - light
-    if (speed < 11) return '#f97316';      // Orange - moderate
-    return '#ef4444';                       // Red - strong
+    if (speed < 3) return '#3b82f6';   // Blue - calm
+    if (speed < 5) return '#22c55e';   // Green - light
+    if (speed < 8) return '#eab308';   // Yellow - moderate
+    if (speed < 11) return '#f97316';  // Orange - fresh
+    return '#ef4444';                   // Red - strong
 }
 
-// Show info panel for selected point
 function showInfoPanel(point) {
     const forecast = point.forecasts[currentDay];
     
     document.getElementById('location-name').textContent = 
-        `${point.lat.toFixed(2)}°N, ${point.lon.toFixed(2)}°E`;
+        `${point.lat.toFixed(1)}°N, ${point.lon.toFixed(1)}°E`;
     document.getElementById('wind-speed').textContent = 
         `${forecast.windSpeed.toFixed(1)} m/s`;
     document.getElementById('wind-direction').textContent = 
@@ -217,7 +270,6 @@ function showInfoPanel(point) {
     document.getElementById('humidity').textContent = 
         `${Math.round(forecast.humidity)}%`;
     
-    // Render mini forecast
     const miniContainer = document.getElementById('forecast-mini');
     miniContainer.innerHTML = point.forecasts.slice(0, 7).map((f, i) => `
         <div class="forecast-day ${i === currentDay ? 'active' : ''}">
@@ -230,19 +282,15 @@ function showInfoPanel(point) {
     document.getElementById('info-panel').classList.remove('hidden');
 }
 
-// Close info panel
 function closePanel() {
     document.getElementById('info-panel').classList.add('hidden');
 }
 
-// Get cardinal direction from degrees
 function getWindDirectionName(deg) {
     const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
-    const index = Math.round(deg / 45) % 8;
-    return directions[index];
+    return directions[Math.round(deg / 45) % 8];
 }
 
-// Setup controls
 function setupControls() {
     const slider = document.getElementById('day-slider');
     const label = document.getElementById('day-label');
@@ -250,23 +298,18 @@ function setupControls() {
     slider.addEventListener('input', (e) => {
         currentDay = parseInt(e.target.value);
         label.textContent = dayNames[currentDay];
-        renderWind();
+        updateVisualization();
     });
 }
 
-// Loading indicator
 function showLoading(show) {
     let loader = document.getElementById('loader');
-    
     if (show) {
         if (!loader) {
             loader = document.createElement('div');
             loader.id = 'loader';
             loader.className = 'loading';
-            loader.innerHTML = `
-                <div class="loading-spinner"></div>
-                <div>Loading wind data...</div>
-            `;
+            loader.innerHTML = '<div class="loading-spinner"></div><div>Loading wind data...</div>';
             document.body.appendChild(loader);
         }
         loader.style.display = 'block';
@@ -275,5 +318,4 @@ function showLoading(show) {
     }
 }
 
-// Initialize on load
 document.addEventListener('DOMContentLoaded', init);
