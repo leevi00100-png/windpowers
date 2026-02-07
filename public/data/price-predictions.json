@@ -1,0 +1,87 @@
+{
+  "generated": "2026-02-07T18:10:00.000Z",
+  "model": "WindPriceCorrrelation v1",
+  "predictions": [
+    {
+      "date": "2026-02-07",
+      "dayName": "Today",
+      "avgWindSpeed": 2.7,
+      "avgTemperature": -14,
+      "predictedPrice": 145,
+      "priceLevel": "HIGH",
+      "confidence": 0.75
+    },
+    {
+      "date": "2026-02-08",
+      "dayName": "Tomorrow",
+      "avgWindSpeed": 2.9,
+      "avgTemperature": -12,
+      "predictedPrice": 138,
+      "priceLevel": "HIGH",
+      "confidence": 0.70
+    },
+    {
+      "date": "2026-02-09",
+      "dayName": "+2d",
+      "avgWindSpeed": 3.0,
+      "avgTemperature": -10,
+      "predictedPrice": 125,
+      "priceLevel": "HIGH",
+      "confidence": 0.65
+    },
+    {
+      "date": "2026-02-10",
+      "dayName": "+3d",
+      "avgWindSpeed": 5.2,
+      "avgTemperature": -8,
+      "predictedPrice": 82,
+      "priceLevel": "NORMAL",
+      "confidence": 0.60
+    },
+    {
+      "date": "2026-02-11",
+      "dayName": "+4d",
+      "avgWindSpeed": 7.8,
+      "avgTemperature": -6,
+      "predictedPrice": 58,
+      "priceLevel": "NORMAL",
+      "confidence": 0.55
+    },
+    {
+      "date": "2026-02-12",
+      "dayName": "+5d",
+      "avgWindSpeed": 9.5,
+      "avgTemperature": -4,
+      "predictedPrice": 42,
+      "priceLevel": "LOW",
+      "confidence": 0.50
+    },
+    {
+      "date": "2026-02-13",
+      "dayName": "+6d",
+      "avgWindSpeed": 8.2,
+      "avgTemperature": -5,
+      "predictedPrice": 55,
+      "priceLevel": "NORMAL",
+      "confidence": 0.45
+    },
+    {
+      "date": "2026-02-14",
+      "dayName": "+7d",
+      "avgWindSpeed": 6.1,
+      "avgTemperature": -7,
+      "predictedPrice": 72,
+      "priceLevel": "NORMAL",
+      "confidence": 0.40
+    },
+    {
+      "date": "2026-02-15",
+      "dayName": "+8d",
+      "avgWindSpeed": 4.5,
+      "avgTemperature": -9,
+      "predictedPrice": 95,
+      "priceLevel": "NORMAL",
+      "confidence": 0.35
+    }
+  ]
+}

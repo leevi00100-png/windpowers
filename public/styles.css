@@ -287,6 +287,148 @@ body {
     text-decoration: underline;
 }
 
+/* Price Indicator in Header */
+.price-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+}
+
+.price-indicator.low { background: linear-gradient(135deg, #dcfce7, #bbf7d0); }
+.price-indicator.high { background: linear-gradient(135deg, #fee2e2, #fecaca); }
+
+.price-label {
+    font-size: 0.7rem;
+    color: #92400e;
+    text-transform: uppercase;
+}
+
+.price-value {
+    font-size: 1.1rem;
+    color: #78350f;
+}
+
+.price-unit {
+    font-size: 0.65rem;
+    color: #92400e;
+}
+
+/* Price Panel */
+.price-panel {
+    position: absolute;
+    bottom: 3rem;
+    left: 1rem;
+    background: var(--surface);
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: var(--shadow-lg);
+    z-index: 50;
+    max-width: 400px;
+}
+
+.price-panel h4 {
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+    color: var(--text);
+}
+
+.price-forecast {
+    display: flex;
+    gap: 0.35rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+}
+
+.price-day {
+    flex-shrink: 0;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    min-width: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.price-day:hover {
+    transform: translateY(-2px);
+}
+
+.price-day.low { background: #dcfce7; }
+.price-day.normal { background: #fef3c7; }
+.price-day.high { background: #fee2e2; }
+.price-day.active { outline: 2px solid var(--primary); }
+
+.price-day .day-name {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+.price-day .price {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0.2rem 0;
+}
+
+.price-day .wind-info {
+    font-size: 0.6rem;
+    color: var(--text-light);
+}
+
+.price-note {
+    margin-top: 0.5rem;
+    font-size: 0.65rem;
+    color: var(--text-light);
+}
+
+/* Legend Panel */
+.legend-panel {
+    position: absolute;
+    bottom: 3rem;
+    right: 1rem;
+    background: var(--surface);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    box-shadow: var(--shadow);
+    z-index: 50;
+}
+
+.legend-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+}
+
+.legend-gradient {
+    height: 12px;
+    width: 150px;
+    border-radius: 6px;
+    background: linear-gradient(to right, #3b82f6, #22c55e, #eab308, #f97316, #ef4444);
+}
+
+.legend-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.6rem;
+    color: var(--text-light);
+    margin-top: 0.25rem;
+}
+
+/* Tagline */
+.tagline {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    font-weight: 400;
+    margin-left: 0.5rem;
+    opacity: 0.8;
+}
+
 /* Wind Arrow Container */
 .wind-arrow-container {
     display: flex;

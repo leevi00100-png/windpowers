@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "name": "windpowers",
+  "builds": [
+    {
+      "src": "src/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "src/server.js" },
+    { "src": "/data/(.*)", "dest": "public/data/$1" },
+    { "src": "/(.*)", "dest": "public/$1" }
+  ]
+}

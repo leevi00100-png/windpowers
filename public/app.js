@@ -318,4 +318,84 @@ function showLoading(show) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', init);
+// Price predictions
+let pricePredictions = [];
+
+async function loadPricePredictions() {
+    try {
+        const response = await fetch('/data/price-predictions.json');
+        if (response.ok) {
+            const data = await response.json();
+            pricePredictions = data.predictions || [];
+            renderPriceForecast();
+        }
+    } catch (e) {
+        // Generate sample predictions
+        pricePredictions = generateSamplePredictions();
+        renderPriceForecast();
+    }
+}
+
+function generateSamplePredictions() {
+    const predictions = [];
+    const now = new Date();
+    
+    for (let day = 0; day < 9; day++) {
+        const date = new Date(now);
+        date.setDate(date.getDate() + day);
+        
+        // Simulate: low wind = high price
+        const avgWind = 4 + Math.random() * 8;
+        const basePrice = 80 - avgWind * 5 + Math.random() * 30;
+        
+        predictions.push({
+            date: date.toISOString().split('T')[0],
+            dayName: day === 0 ? 'Today' : day === 1 ? 'Tomorrow' : `+${day}d`,
+            avgWindSpeed: avgWind,
+            predictedPrice: Math.max(20, basePrice),
+            priceLevel: basePrice < 50 ? 'LOW' : basePrice > 90 ? 'HIGH' : 'NORMAL'
+        });
+    }
+    return predictions;
+}
+
+function renderPriceForecast() {
+    const container = document.getElementById('price-forecast');
+    if (!container || !pricePredictions.length) return;
+    
+    container.innerHTML = pricePredictions.map((p, i) => `
+        <div class="price-day ${p.priceLevel.toLowerCase()} ${i === currentDay ? 'active' : ''}"
+             onclick="setDay(${i})">
+            <div class="day-name">${p.dayName}</div>
+            <div class="price">€${Math.round(p.predictedPrice)}</div>
+            <div class="wind-info">${p.avgWindSpeed?.toFixed(1) || '--'} m/s</div>
+        </div>
+    `).join('');
+    
+    // Update header price indicator
+    const current = pricePredictions[currentDay];
+    if (current) {
+        const priceEl = document.getElementById('price-value');
+        const indicatorEl = document.getElementById('price-indicator');
+        
+        if (priceEl) priceEl.textContent = Math.round(current.predictedPrice);
+        if (indicatorEl) {
+            indicatorEl.classList.remove('low', 'high');
+            if (current.priceLevel === 'LOW') indicatorEl.classList.add('low');
+            else if (current.priceLevel === 'HIGH') indicatorEl.classList.add('high');
+        }
+    }
+}
+
+function setDay(day) {
+    currentDay = day;
+    document.getElementById('day-slider').value = day;
+    document.getElementById('day-label').textContent = dayNames[day];
+    updateVisualization();
+    renderPriceForecast();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    init();
+    loadPricePredictions();
+});
