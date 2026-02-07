@@ -253,54 +253,51 @@ function addWindSources() {
         data: getWindGeoJSON()
     });
     
-    // Heatmap layer
+    // Heatmap layer - enhanced visibility at low zoom
     map.addLayer({
         id: 'wind-heat',
         type: 'heatmap',
         source: 'wind-points',
-        maxzoom: 10,
+        maxzoom: 12,
         paint: {
             'heatmap-weight': [
                 'interpolate', ['linear'], ['get', 'windSpeed'],
-                0, 0.1, 3, 0.3, 6, 0.5, 10, 0.8, 15, 1
+                0, 0.4, 5, 0.6, 10, 0.85, 15, 1
             ],
             'heatmap-intensity': [
                 'interpolate', ['linear'], ['zoom'],
-                3, 0.3, 5, 0.5, 7, 0.8, 9, 1
+                1, 1.2, 4, 1.5, 7, 1, 10, 1
             ],
             'heatmap-color': [
                 'interpolate', ['linear'], ['heatmap-density'],
-                0, 'rgba(255,255,255,0)',
-                0.05, 'rgba(220,240,255,0.3)',
-                0.15, 'rgba(150,200,255,0.5)',
-                0.3, 'rgba(100,180,220,0.6)',
-                0.45, 'rgba(80,200,170,0.7)',
-                0.6, 'rgba(150,220,100,0.75)',
-                0.75, 'rgba(240,200,80,0.8)',
-                0.9, 'rgba(250,140,60,0.85)',
-                1, 'rgba(240,80,60,0.9)'
+                0, 'rgba(59, 130, 246, 0.5)',
+                0.02, 'rgba(59, 130, 246, 0.6)',
+                0.1, 'rgba(34, 197, 94, 0.75)',
+                0.3, 'rgba(234, 179, 8, 0.85)',
+                0.6, 'rgba(249, 115, 22, 0.9)',
+                1, 'rgba(239, 68, 68, 0.95)'
             ],
             'heatmap-radius': [
                 'interpolate', ['linear'], ['zoom'],
-                3, 8, 5, 15, 7, 25, 9, 40, 11, 60
+                1, 20, 4, 30, 7, 45, 10, 60
             ],
             'heatmap-opacity': [
                 'interpolate', ['linear'], ['zoom'],
-                5, 0.95, 7, 0.8, 9, 0.5, 11, 0.2
+                1, 0.9, 5, 0.85, 8, 0.7, 12, 0.5
             ]
         }
     });
     
-    // Circle layer
+    // Circle layer - shows at zoom 5+
     map.addLayer({
         id: 'wind-circles',
         type: 'circle',
         source: 'wind-points',
-        minzoom: 7,
+        minzoom: 5,
         paint: {
             'circle-radius': [
                 'interpolate', ['linear'], ['zoom'],
-                7, 3, 9, 5, 11, 8
+                5, 5, 7, 7, 10, 12
             ],
             'circle-color': [
                 'interpolate', ['linear'], ['get', 'windSpeed'],
@@ -309,11 +306,11 @@ function addWindSources() {
             ],
             'circle-opacity': [
                 'interpolate', ['linear'], ['zoom'],
-                7, 0.4, 9, 0.7, 11, 0.9
+                5, 0.6, 8, 0.8, 11, 0.95
             ],
-            'circle-stroke-width': 0.5,
-            'circle-stroke-color': 'rgba(255,255,255,0.6)',
-            'circle-blur': 0.2
+            'circle-stroke-width': 1,
+            'circle-stroke-color': 'rgba(255,255,255,0.7)',
+            'circle-blur': 0.1
         }
     });
 }
