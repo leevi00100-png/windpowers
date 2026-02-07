@@ -152,10 +152,17 @@
     <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
     <script src="app.js"></script>
     
-    <!-- Vercel Analytics -->
+    <!-- Defer non-critical analytics until page is fully loaded -->
     <script>
-      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://cdn.vercel-insights.com/v1/script.js';
+          document.head.appendChild(script);
+        }, 2000); // Delay by 2 seconds to prioritize UI
+      });
     </script>
-    <script async src="https://cdn.vercel-insights.com/v1/script.js"></script>
 </body>
 </html>
