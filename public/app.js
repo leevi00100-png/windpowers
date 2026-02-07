@@ -507,7 +507,7 @@ function renderPriceForecast() {
         <div class="price-day ${p.priceLevel.toLowerCase()} ${i === currentDay ? 'active' : ''}"
              onclick="setDay(${i})">
             <div class="day-name">${p.dayName}</div>
-            <div class="price">€${Math.round(p.predictedPrice)}</div>
+            <div class="price">${Math.round(p.predictedPrice / 10)}¢</div>
             <div class="wind-info">${p.avgWindSpeed?.toFixed(1) || '--'} m/s</div>
         </div>
     `).join('');
@@ -517,7 +517,7 @@ function renderPriceForecast() {
         const priceEl = document.getElementById('price-value');
         const indicatorEl = document.getElementById('price-indicator');
         
-        if (priceEl) priceEl.textContent = Math.round(current.predictedPrice);
+        if (priceEl) priceEl.textContent = Math.round(current.predictedPrice / 10);
         if (indicatorEl) {
             indicatorEl.classList.remove('low', 'high');
             if (current.priceLevel === 'LOW') indicatorEl.classList.add('low');
