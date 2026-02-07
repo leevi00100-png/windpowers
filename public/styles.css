@@ -489,18 +489,15 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+    background: #f1f5f9;
     padding: 0.5rem 1rem;
     border-radius: 2rem;
     font-weight: 600;
 }
 
-.price-indicator.low { background: linear-gradient(135deg, #cffafe, #a5f3fc); }
-.price-indicator.high { background: linear-gradient(135deg, #fbcfe8, #f9a8d4); }
-
 .price-label {
     font-size: 0.7rem;
-    color: #4c1d95;
+    color: #64748b;
     text-transform: uppercase;
 }
 
@@ -554,10 +551,8 @@ body {
     transform: translateX(4px);
 }
 
-.price-day.low { background: #cffafe; }
-.price-day.normal { background: #ddd6fe; }
-.price-day.high { background: #fbcfe8; }
-.price-day.active { outline: 2px solid var(--primary); }
+.price-day { background: #f1f5f9; }
+.price-day.active { outline: 2px solid var(--primary); background: #e0e7ff; }
 
 .price-day .day-name {
     font-size: 0.75rem;
@@ -679,8 +674,47 @@ body {
     height: 32px !important;
 }
 
+/* Move zoom controls to bottom-right */
+.maplibregl-ctrl-zoom {
+    margin: 1rem !important;
+}
+
+/* Position zoom controls at bottom-right */
+.maplibregl-ctrl-zoom.maplibregl-compass {
+    position: absolute !important;
+    bottom: 1rem;
+    right: 1rem;
+    margin: 0 !important;
+}
+
+/* Alternative approach - wrap and reposition */
+.maplibregl-ctrl-zoom {
+    position: absolute !important;
+    bottom: 1.5rem !important;
+    right: 1rem !important;
+    left: auto !important;
+    top: auto !important;
+    margin: 0 !important;
+}
+
+/* Ensure compass is also positioned correctly */
+.maplibregl-ctrl.maplibregl-ctrl-attrib {
+    margin-right: 1rem !important;
+    margin-bottom: 5rem !important;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
+    /* Zoom controls positioning - mobile */
+    .maplibregl-ctrl-zoom {
+        position: absolute !important;
+        bottom: 1rem !important;
+        right: 0.5rem !important;
+        left: auto !important;
+        top: auto !important;
+        margin: 0 !important;
+    }
+    
     .header {
         flex-direction: row;
         flex-wrap: wrap;
