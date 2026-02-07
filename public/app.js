@@ -57,7 +57,8 @@ async function init() {
                 source: 'carto-light',
                 minzoom: 0,
                 maxzoom: 19
-            }]
+            }],
+            glyphs: 'https://cdn.jsdelivr.net/npm/@mapbox/mapbox-gl-style-spec@13.23.5/font/{fontstack}/{range}.pbf'
         },
         center: CONFIG.center,
         zoom: CONFIG.zoom
