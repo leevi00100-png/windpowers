@@ -80,6 +80,10 @@ async function init() {
         addWindSources();
         updateVisualization();
         updateDashboardMetrics();
+        // Load turbine data
+        await fetchTurbineData();
+        addTurbineSources();
+        updateTurbineVisualization();
     });
 }
 
@@ -253,64 +257,69 @@ function addWindSources() {
         data: getWindGeoJSON()
     });
     
-    // Heatmap layer - enhanced visibility at low zoom
+    // Subtle heatmap layer - gentle overlay
     map.addLayer({
         id: 'wind-heat',
         type: 'heatmap',
         source: 'wind-points',
-        maxzoom: 12,
+        maxzoom: 10,
         paint: {
+            // Lower weight for subtle appearance
             'heatmap-weight': [
                 'interpolate', ['linear'], ['get', 'windSpeed'],
-                0, 0.3, 5, 0.6, 10, 0.85, 15, 1
+                0, 0.2, 5, 0.4, 10, 0.6, 15, 0.8
             ],
+            // Gentle intensity
             'heatmap-intensity': [
                 'interpolate', ['linear'], ['zoom'],
-                1, 1.5, 4, 1.8, 7, 1.2, 10, 1
+                1, 0.8, 4, 1, 7, 1, 10, 1
             ],
+            // Soft colors: light blue → teal → subtle amber
             'heatmap-color': [
                 'interpolate', ['linear'], ['heatmap-density'],
-                0, 'rgba(59, 130, 246, 0.6)',
-                0.02, 'rgba(59, 130, 246, 0.7)',
-                0.1, 'rgba(34, 197, 94, 0.8)',
-                0.3, 'rgba(234, 179, 8, 0.85)',
-                0.6, 'rgba(249, 115, 22, 0.9)',
-                1, 'rgba(239, 68, 68, 0.95)'
+                0, 'rgba(200, 220, 255, 0.25)',
+                0.1, 'rgba(160, 200, 230, 0.35)',
+                0.3, 'rgba(120, 180, 200, 0.45)',
+                0.5, 'rgba(80, 160, 160, 0.5)',
+                0.75, 'rgba(200, 180, 100, 0.55)',
+                1, 'rgba(220, 150, 80, 0.6)'
             ],
+            // Larger radius for smooth coverage
             'heatmap-radius': [
                 'interpolate', ['linear'], ['zoom'],
-                1, 35, 4, 45, 7, 55, 10, 70
+                1, 30, 4, 50, 7, 70, 10, 90
             ],
+            // Lower opacity for subtle overlay
             'heatmap-opacity': [
                 'interpolate', ['linear'], ['zoom'],
-                1, 0.95, 5, 0.9, 8, 0.75, 12, 0.55
+                1, 0.5, 4, 0.6, 7, 0.7, 10, 0.5
             ]
         }
     });
     
-    // Circle layer - shows at zoom 4+
+    // Circle layer - only shows at zoom 7+ for detail
     map.addLayer({
         id: 'wind-circles',
         type: 'circle',
         source: 'wind-points',
-        minzoom: 4,
+        minzoom: 7,
         paint: {
             'circle-radius': [
                 'interpolate', ['linear'], ['zoom'],
-                4, 7, 7, 9, 10, 14
+                7, 4, 9, 6, 12, 10
             ],
             'circle-color': [
                 'interpolate', ['linear'], ['get', 'windSpeed'],
-                0, '#93c5fd', 3, '#60a5fa', 5, '#34d399',
-                8, '#fbbf24', 11, '#f97316', 15, '#ef4444'
+                0, '#b8d4e8', 3, '#93c5fd', 5, '#86efac',
+                8, '#fde047', 11, '#fbbf24', 15, '#f97316'
             ],
             'circle-opacity': [
                 'interpolate', ['linear'], ['zoom'],
-                4, 0.75, 7, 0.85, 10, 0.95
+                7, 0.5, 9, 0.7, 12, 0.85
             ],
-            'circle-stroke-width': 1.5,
-            'circle-stroke-color': 'rgba(255,255,255,0.8)',
-            'circle-blur': 0.1
+            'circle-stroke-width': 0.5,
+            'circle-stroke-color': 'rgba(255,255,255,0.5)',
+            'circle-blur': 0.2
         }
     });
 }
@@ -552,3 +561,152 @@ document.addEventListener('DOMContentLoaded', () => {
     init();
     loadPricePredictions();
 });
+
+// ==================== TURBINE FUNCTIONS ====================
+
+async function fetchTurbineData() {
+    try {
+        const response = await fetch('/data/turbines-finland.json');
+        if (response.ok) {
+            const data = await response.json();
+            turbineData = data.turbines || [];
+            console.log(`🌀 Loaded ${turbineData.length} wind farm locations`);
+        }
+    } catch (e) {
+        console.log('No turbine data available');
+        turbineData = [];
+    }
+}
+
+function addTurbineSources() {
+    // Add geojson source for turbines
+    map.addSource('turbines', {
+        type: 'geojson',
+        data: getTurbineGeoJSON()
+    });
+    
+    // Outer glow layer
+    map.addLayer({
+        id: 'turbine-glow',
+        type: 'circle',
+        source: 'turbines',
+        paint: {
+            'circle-color': [
+                'interpolate', ['linear'], ['get', 'count'],
+                5, '#fde047',
+                15, '#fbbf24',
+                30, '#f97316',
+                50, '#ef4444'
+            ],
+            'circle-radius': [
+                'interpolate', ['linear'], ['get', 'count'],
+                5, 20,
+                15, 26,
+                30, 34,
+                50, 44
+            ],
+            'circle-opacity': 0.3
+        }
+    });
+    
+    // Main circle
+    map.addLayer({
+        id: 'turbine-points',
+        type: 'circle',
+        source: 'turbines',
+        paint: {
+            'circle-color': [
+                'interpolate', ['linear'], ['get', 'count'],
+                5, '#fde047',
+                15, '#fbbf24',
+                30, '#f97316',
+                50, '#ef4444'
+            ],
+            'circle-radius': [
+                'interpolate', ['linear'], ['get', 'count'],
+                5, 14,
+                15, 20,
+                30, 26,
+                50, 34
+            ],
+            'circle-stroke-width': 3,
+            'circle-stroke-color': '#ffffff'
+        }
+    });
+    
+    // Inner white circle for count background
+    map.addLayer({
+        id: 'turbine-count-bg',
+        type: 'circle',
+        source: 'turbines',
+        paint: {
+            'circle-color': '#ffffff',
+            'circle-radius': [
+                'interpolate', ['linear'], ['get', 'count'],
+                5, 8,
+                15, 10,
+                30, 14,
+                50, 18
+            ]
+        }
+    });
+    
+    // Wind farm name labels
+    map.addLayer({
+        id: 'turbine-names',
+        type: 'symbol',
+        source: 'turbines',
+        layout: {
+            'text-field': ['get', 'name'],
+            'text-font': ['Arial Bold'],
+            'text-size': 12,
+            'text-offset': [0, 2],
+            'text-anchor': 'top'
+        },
+        paint: {
+            'text-color': '#1e293b',
+            'text-halo-color': 'rgba(255,255,255,0.9)',
+            'text-halo-width': 3
+        }
+    });
+    
+    // Count number labels
+    map.addLayer({
+        id: 'turbine-count-labels',
+        type: 'symbol',
+        source: 'turbines',
+        layout: {
+            'text-field': ['to-string', ['get', 'count']],
+            'text-font': ['Arial Bold'],
+            'text-size': 14
+        },
+        paint: {
+            'text-color': '#1e293b'
+        }
+    });
+}
+
+function getTurbineGeoJSON() {
+    return {
+        type: 'FeatureCollection',
+        features: turbineData.map(turbine => ({
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [turbine.lon, turbine.lat]
+            },
+            properties: {
+                name: turbine.name,
+                count: turbine.count,
+                type: turbine.type
+            }
+        }))
+    };
+}
+
+function updateTurbineVisualization() {
+    const source = map.getSource('turbines');
+    if (source) {
+        source.setData(getTurbineGeoJSON());
+    }
+}

@@ -1,0 +1,74 @@
+{
+  "turbines": [
+    {
+      "name": "Tahkoluoto",
+      "lat": 61.85,
+      "lon": 21.4,
+      "count": 11,
+      "type": "offshore"
+    },
+    {
+      "name": "Muurla",
+      "lat": 60.35,
+      "lon": 23.55,
+      "count": 10,
+      "type": "onshore"
+    },
+    {
+      "name": "Kristiine",
+      "lat": 60.25,
+      "lon": 22.25,
+      "count": 8,
+      "type": "onshore"
+    },
+    {
+      "name": "Pori Region",
+      "lat": 61.5,
+      "lon": 21.8,
+      "count": 45,
+      "type": "onshore"
+    },
+    {
+      "name": "Ii",
+      "lat": 65.35,
+      "lon": 25.4,
+      "count": 42,
+      "type": "onshore"
+    },
+    {
+      "name": "Kalajoki",
+      "lat": 64.2,
+      "lon": 23.85,
+      "count": 38,
+      "type": "onshore"
+    },
+    {
+      "name": "Raahe",
+      "lat": 64.65,
+      "lon": 24.55,
+      "count": 35,
+      "type": "onshore"
+    },
+    {
+      "name": "Korsnäs",
+      "lat": 62.85,
+      "lon": 21.2,
+      "count": 28,
+      "type": "onshore"
+    },
+    {
+      "name": "Härmälä",
+      "lat": 63.6,
+      "lon": 22.75,
+      "count": 22,
+      "type": "onshore"
+    },
+    {
+      "name": "Vaasa",
+      "lat": 63.1,
+      "lon": 21.6,
+      "count": 18,
+      "type": "onshore"
+    }
+  ]
+}

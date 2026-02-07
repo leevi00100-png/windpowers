@@ -15,5 +15,9 @@
     { "src": "/api/(.*)", "dest": "src/server.js" },
     { "src": "/data/(.*)", "dest": "public/data/$1" },
     { "src": "/(.*)", "dest": "public/$1" }
-  ]
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "regions": ["iad1"]
 }
