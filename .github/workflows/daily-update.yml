@@ -1,0 +1,49 @@
+name: Daily Data Update
+
+on:
+  schedule:
+    # Run daily at 02:00 UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./windpowers
+        
+      - name: Fetch wind data
+        run: node scripts/fetch-wind-data.js
+        working-directory: ./windpowers
+        
+      - name: Fetch Nordpool prices
+        run: node scripts/fetch-nordpool-prices.js
+        working-directory: ./windpowers
+        
+      - name: Generate price predictions
+        run: node scripts/price-prediction.js
+        working-directory: ./windpowers
+        
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add -A
+          git diff --stat
+          if [ -n "$(git diff --name-only)" ]; then
+            git commit -m "Daily data update $(date +%Y-%m-%d)"
+            git push
+          else
+            echo "No changes to commit"
+          fi
