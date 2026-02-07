@@ -262,42 +262,42 @@ function addWindSources() {
         paint: {
             'heatmap-weight': [
                 'interpolate', ['linear'], ['get', 'windSpeed'],
-                0, 0.4, 5, 0.6, 10, 0.85, 15, 1
+                0, 0.3, 5, 0.6, 10, 0.85, 15, 1
             ],
             'heatmap-intensity': [
                 'interpolate', ['linear'], ['zoom'],
-                1, 1.2, 4, 1.5, 7, 1, 10, 1
+                1, 1.5, 4, 1.8, 7, 1.2, 10, 1
             ],
             'heatmap-color': [
                 'interpolate', ['linear'], ['heatmap-density'],
-                0, 'rgba(59, 130, 246, 0.5)',
-                0.02, 'rgba(59, 130, 246, 0.6)',
-                0.1, 'rgba(34, 197, 94, 0.75)',
+                0, 'rgba(59, 130, 246, 0.6)',
+                0.02, 'rgba(59, 130, 246, 0.7)',
+                0.1, 'rgba(34, 197, 94, 0.8)',
                 0.3, 'rgba(234, 179, 8, 0.85)',
                 0.6, 'rgba(249, 115, 22, 0.9)',
                 1, 'rgba(239, 68, 68, 0.95)'
             ],
             'heatmap-radius': [
                 'interpolate', ['linear'], ['zoom'],
-                1, 20, 4, 30, 7, 45, 10, 60
+                1, 35, 4, 45, 7, 55, 10, 70
             ],
             'heatmap-opacity': [
                 'interpolate', ['linear'], ['zoom'],
-                1, 0.9, 5, 0.85, 8, 0.7, 12, 0.5
+                1, 0.95, 5, 0.9, 8, 0.75, 12, 0.55
             ]
         }
     });
     
-    // Circle layer - shows at zoom 5+
+    // Circle layer - shows at zoom 4+
     map.addLayer({
         id: 'wind-circles',
         type: 'circle',
         source: 'wind-points',
-        minzoom: 5,
+        minzoom: 4,
         paint: {
             'circle-radius': [
                 'interpolate', ['linear'], ['zoom'],
-                5, 5, 7, 7, 10, 12
+                4, 7, 7, 9, 10, 14
             ],
             'circle-color': [
                 'interpolate', ['linear'], ['get', 'windSpeed'],
@@ -306,10 +306,10 @@ function addWindSources() {
             ],
             'circle-opacity': [
                 'interpolate', ['linear'], ['zoom'],
-                5, 0.6, 8, 0.8, 11, 0.95
+                4, 0.75, 7, 0.85, 10, 0.95
             ],
-            'circle-stroke-width': 1,
-            'circle-stroke-color': 'rgba(255,255,255,0.7)',
+            'circle-stroke-width': 1.5,
+            'circle-stroke-color': 'rgba(255,255,255,0.8)',
             'circle-blur': 0.1
         }
     });
@@ -344,16 +344,16 @@ function updateVisualization() {
     markers.forEach(m => m.remove());
     markers = [];
     
-    if (zoom >= 6) {
+    if (zoom >= 4) {
         renderArrows(zoom);
     }
 }
 
 function renderArrows(zoom) {
     let skipFactor = 1;
-    if (zoom < 8) skipFactor = 9;
-    else if (zoom < 9) skipFactor = 4;
-    else if (zoom < 10) skipFactor = 2;
+    if (zoom < 6) skipFactor = 9;
+    else if (zoom < 7) skipFactor = 4;
+    else if (zoom < 8) skipFactor = 2;
     
     windData.forEach((point, i) => {
         if (i % skipFactor !== 0) return;
@@ -366,8 +366,12 @@ function renderArrows(zoom) {
         const el = document.createElement('div');
         el.className = 'wind-arrow-container';
         
-        const size = Math.max(16, Math.min(32, 12 + windSpeed * 1.5));
-        const opacity = Math.min(0.9, 0.4 + (zoom - 6) * 0.15);
+        // Size increases with zoom but stays visible at low zoom
+        const baseSize = Math.max(14, Math.min(32, 10 + zoom * 1.5 + windSpeed * 0.5));
+        const size = baseSize;
+        
+        // Opacity remains visible at all zoom levels
+        const opacity = Math.min(0.95, 0.6 + (zoom - 4) * 0.1);
         
         el.innerHTML = `
             <svg width="${size}" height="${size}" viewBox="0 0 24 24" 
