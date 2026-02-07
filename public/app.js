@@ -125,51 +125,94 @@ function addWindSources() {
         data: getWindGeoJSON()
     });
     
-    // Heatmap layer - visible at low zoom
+    // Heatmap layer - smooth gradient based on wind speed
     map.addLayer({
         id: 'wind-heat',
         type: 'heatmap',
         source: 'wind-points',
-        maxzoom: 8,
+        maxzoom: 10,
         paint: {
-            'heatmap-weight': ['interpolate', ['linear'], ['get', 'windSpeed'], 0, 0, 3, 0.3, 6, 0.6, 10, 0.9, 15, 1],
-            'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 0, 0.5, 6, 1, 9, 1.5],
+            // Weight by wind speed - higher wind = more intensity
+            'heatmap-weight': [
+                'interpolate', ['linear'], ['get', 'windSpeed'],
+                0, 0.1,
+                3, 0.3,
+                6, 0.5,
+                10, 0.8,
+                15, 1
+            ],
+            // Intensity increases with zoom
+            'heatmap-intensity': [
+                'interpolate', ['linear'], ['zoom'],
+                3, 0.3,
+                5, 0.5,
+                7, 0.8,
+                9, 1
+            ],
+            // Beautiful color gradient: blue (calm) → green → yellow → orange → red (strong)
             'heatmap-color': [
                 'interpolate', ['linear'], ['heatmap-density'],
                 0, 'rgba(255,255,255,0)',
-                0.1, 'rgba(200,230,255,0.4)',
-                0.3, 'rgba(100,180,255,0.5)',
-                0.5, 'rgba(50,200,150,0.6)',
-                0.7, 'rgba(255,200,50,0.7)',
-                0.9, 'rgba(255,100,50,0.8)',
-                1, 'rgba(220,50,50,0.9)'
+                0.05, 'rgba(220,240,255,0.3)',
+                0.15, 'rgba(150,200,255,0.5)',
+                0.3, 'rgba(100,180,220,0.6)',
+                0.45, 'rgba(80,200,170,0.7)',
+                0.6, 'rgba(150,220,100,0.75)',
+                0.75, 'rgba(240,200,80,0.8)',
+                0.9, 'rgba(250,140,60,0.85)',
+                1, 'rgba(240,80,60,0.9)'
             ],
-            'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 20, 4, 35, 6, 50, 9, 80],
-            'heatmap-opacity': ['interpolate', ['linear'], ['zoom'], 5, 0.9, 7, 0.6, 9, 0.3]
+            // Smaller radius for denser data = smoother appearance
+            'heatmap-radius': [
+                'interpolate', ['linear'], ['zoom'],
+                3, 8,
+                5, 15,
+                7, 25,
+                9, 40,
+                11, 60
+            ],
+            // Opacity fades as you zoom in to show details
+            'heatmap-opacity': [
+                'interpolate', ['linear'], ['zoom'],
+                5, 0.95,
+                7, 0.8,
+                9, 0.5,
+                11, 0.2
+            ]
         }
     });
     
-    // Circle layer - shows at medium zoom
+    // Circle layer - shows at medium-high zoom for detail
     map.addLayer({
         id: 'wind-circles',
         type: 'circle',
         source: 'wind-points',
-        minzoom: 5,
+        minzoom: 7,
         paint: {
-            'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 4, 7, 8, 10, 15],
+            'circle-radius': [
+                'interpolate', ['linear'], ['zoom'],
+                7, 3,
+                9, 5,
+                11, 8
+            ],
             'circle-color': [
                 'interpolate', ['linear'], ['get', 'windSpeed'],
-                0, '#93c5fd',   // Light blue - calm
-                3, '#3b82f6',   // Blue
-                5, '#22c55e',   // Green
-                8, '#eab308',   // Yellow
-                11, '#f97316',  // Orange
-                15, '#ef4444'   // Red - strong
+                0, '#93c5fd',
+                3, '#60a5fa',
+                5, '#34d399',
+                8, '#fbbf24',
+                11, '#f97316',
+                15, '#ef4444'
             ],
-            'circle-opacity': ['interpolate', ['linear'], ['zoom'], 5, 0.3, 7, 0.6, 9, 0.8],
-            'circle-stroke-width': 1,
-            'circle-stroke-color': 'rgba(255,255,255,0.5)',
-            'circle-blur': ['interpolate', ['linear'], ['zoom'], 5, 0.8, 8, 0.3]
+            'circle-opacity': [
+                'interpolate', ['linear'], ['zoom'],
+                7, 0.4,
+                9, 0.7,
+                11, 0.9
+            ],
+            'circle-stroke-width': 0.5,
+            'circle-stroke-color': 'rgba(255,255,255,0.6)',
+            'circle-blur': 0.2
         }
     });
 }
@@ -211,8 +254,11 @@ function updateVisualization() {
 }
 
 function renderArrows(zoom) {
-    // Determine arrow density based on zoom
-    const skipFactor = zoom < 7 ? 2 : 1;
+    // Determine arrow density based on zoom - skip more at low zoom for dense data
+    let skipFactor = 1;
+    if (zoom < 8) skipFactor = 9;      // Show 1 in 9
+    else if (zoom < 9) skipFactor = 4;  // Show 1 in 4
+    else if (zoom < 10) skipFactor = 2; // Show 1 in 2
     
     windData.forEach((point, i) => {
         if (i % skipFactor !== 0) return;
