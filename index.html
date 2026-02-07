@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WindPowers - Nordic Wind & Energy Forecast</title>
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💨</text></svg>">
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">💨</span>
+                <h1>WindPowers</h1>
+                <span class="tagline">Nordic Wind & Energy Forecast</span>
+            </div>
+            <div class="controls">
+                <div class="forecast-slider">
+                    <label>Forecast:</label>
+                    <input type="range" id="day-slider" min="0" max="8" value="0">
+                    <span id="day-label">Today</span>
+                </div>
+                <div class="price-indicator" id="price-indicator">
+                    <span class="price-label">FI Price:</span>
+                    <span class="price-value" id="price-value">--</span>
+                    <span class="price-unit">€/MWh</span>
+                </div>
+            </div>
+        </header>
+        
+        <main class="main">
+            <div id="map"></div>
+            
+            <!-- Price Forecast Panel -->
+            <div class="price-panel" id="price-panel">
+                <h4>⚡ Energy Price Forecast (Finland)</h4>
+                <div class="price-forecast" id="price-forecast"></div>
+                <div class="price-note">
+                    <small>Prediction based on wind & temperature correlation</small>
+                </div>
+            </div>
+            
+            <!-- Wind Legend -->
+            <div class="legend-panel">
+                <div class="legend-title">Wind Speed</div>
+                <div class="legend-gradient"></div>
+                <div class="legend-labels">
+                    <span>0</span>
+                    <span>5</span>
+                    <span>10</span>
+                    <span>15+ m/s</span>
+                </div>
+            </div>
+            
+            <!-- Location Info Panel -->
+            <div id="info-panel" class="info-panel hidden">
+                <button class="close-btn" onclick="closePanel()">×</button>
+                <h3 id="location-name">Location</h3>
+                <div class="weather-details">
+                    <div class="detail">
+                        <span class="label">Wind</span>
+                        <span class="value" id="wind-speed">-- m/s</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Direction</span>
+                        <span class="value" id="wind-direction">--°</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Temp</span>
+                        <span class="value" id="temperature">--°C</span>
+                    </div>
+                    <div class="detail">
+                        <span class="label">Humidity</span>
+                        <span class="value" id="humidity">--%</span>
+                    </div>
+                </div>
+                <div class="forecast-mini" id="forecast-mini"></div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <span>Weather: <a href="https://www.yr.no" target="_blank">yr.no</a> (MET Norway) | Prices: Nordpool</span>
+            <span>Built by Jarvis ⚡</span>
+        </footer>
+    </div>
+    
+    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,3261 @@
+{
+  "generated": "2026-02-07T18:09:29.770Z",
+  "source": "sample",
+  "data": [
+    {
+      "date": "2026-01-08",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 49.54
+        },
+        {
+          "hour": 1,
+          "price": 46.97
+        },
+        {
+          "hour": 2,
+          "price": 36.51
+        },
+        {
+          "hour": 3,
+          "price": 32.68
+        },
+        {
+          "hour": 4,
+          "price": 37.03
+        },
+        {
+          "hour": 5,
+          "price": 46.53
+        },
+        {
+          "hour": 6,
+          "price": 75.62
+        },
+        {
+          "hour": 7,
+          "price": 106.26
+        },
+        {
+          "hour": 8,
+          "price": 116.99
+        },
+        {
+          "hour": 9,
+          "price": 122.72
+        },
+        {
+          "hour": 10,
+          "price": 85.48
+        },
+        {
+          "hour": 11,
+          "price": 73.83
+        },
+        {
+          "hour": 12,
+          "price": 98.47
+        },
+        {
+          "hour": 13,
+          "price": 88.73
+        },
+        {
+          "hour": 14,
+          "price": 91.08
+        },
+        {
+          "hour": 15,
+          "price": 74.31
+        },
+        {
+          "hour": 16,
+          "price": 60.15
+        },
+        {
+          "hour": 17,
+          "price": 143.27
+        },
+        {
+          "hour": 18,
+          "price": 157.95
+        },
+        {
+          "hour": 19,
+          "price": 146.77
+        },
+        {
+          "hour": 20,
+          "price": 163.92
+        },
+        {
+          "hour": 21,
+          "price": 62.01
+        },
+        {
+          "hour": 22,
+          "price": 81.44
+        },
+        {
+          "hour": 23,
+          "price": 98.36
+        }
+      ],
+      "avgPrice": 87.35916666666668,
+      "maxPrice": 163.92,
+      "minPrice": 32.68
+    },
+    {
+      "date": "2026-01-09",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 23.88
+        },
+        {
+          "hour": 1,
+          "price": 56.88
+        },
+        {
+          "hour": 2,
+          "price": 34.19
+        },
+        {
+          "hour": 3,
+          "price": 56.65
+        },
+        {
+          "hour": 4,
+          "price": 25.99
+        },
+        {
+          "hour": 5,
+          "price": 40.21
+        },
+        {
+          "hour": 6,
+          "price": 76.15
+        },
+        {
+          "hour": 7,
+          "price": 109.55
+        },
+        {
+          "hour": 8,
+          "price": 108.91
+        },
+        {
+          "hour": 9,
+          "price": 127.33
+        },
+        {
+          "hour": 10,
+          "price": 94.41
+        },
+        {
+          "hour": 11,
+          "price": 72.2
+        },
+        {
+          "hour": 12,
+          "price": 88.22
+        },
+        {
+          "hour": 13,
+          "price": 81.06
+        },
+        {
+          "hour": 14,
+          "price": 67.07
+        },
+        {
+          "hour": 15,
+          "price": 87.01
+        },
+        {
+          "hour": 16,
+          "price": 77.44
+        },
+        {
+          "hour": 17,
+          "price": 139.4
+        },
+        {
+          "hour": 18,
+          "price": 161.76
+        },
+        {
+          "hour": 19,
+          "price": 149.02
+        },
+        {
+          "hour": 20,
+          "price": 153.75
+        },
+        {
+          "hour": 21,
+          "price": 87.08
+        },
+        {
+          "hour": 22,
+          "price": 92.76
+        },
+        {
+          "hour": 23,
+          "price": 96.43
+        }
+      ],
+      "avgPrice": 87.80624999999999,
+      "maxPrice": 161.76,
+      "minPrice": 23.88
+    },
+    {
+      "date": "2026-01-10",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 28.27
+        },
+        {
+          "hour": 1,
+          "price": 40.44
+        },
+        {
+          "hour": 2,
+          "price": 22.13
+        },
+        {
+          "hour": 3,
+          "price": 58.96
+        },
+        {
+          "hour": 4,
+          "price": 56.92
+        },
+        {
+          "hour": 5,
+          "price": 22.13
+        },
+        {
+          "hour": 6,
+          "price": 81.9
+        },
+        {
+          "hour": 7,
+          "price": 113.28
+        },
+        {
+          "hour": 8,
+          "price": 124.41
+        },
+        {
+          "hour": 9,
+          "price": 116.74
+        },
+        {
+          "hour": 10,
+          "price": 80.23
+        },
+        {
+          "hour": 11,
+          "price": 66.32
+        },
+        {
+          "hour": 12,
+          "price": 83.23
+        },
+        {
+          "hour": 13,
+          "price": 96.84
+        },
+        {
+          "hour": 14,
+          "price": 73.93
+        },
+        {
+          "hour": 15,
+          "price": 82.65
+        },
+        {
+          "hour": 16,
+          "price": 71.73
+        },
+        {
+          "hour": 17,
+          "price": 124.63
+        },
+        {
+          "hour": 18,
+          "price": 158
+        },
+        {
+          "hour": 19,
+          "price": 158.99
+        },
+        {
+          "hour": 20,
+          "price": 142.36
+        },
+        {
+          "hour": 21,
+          "price": 99.2
+        },
+        {
+          "hour": 22,
+          "price": 81.3
+        },
+        {
+          "hour": 23,
+          "price": 86.67
+        }
+      ],
+      "avgPrice": 86.30250000000001,
+      "maxPrice": 158.99,
+      "minPrice": 22.13
+    },
+    {
+      "date": "2026-01-11",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 30.92
+        },
+        {
+          "hour": 1,
+          "price": 44.59
+        },
+        {
+          "hour": 2,
+          "price": 50.61
+        },
+        {
+          "hour": 3,
+          "price": 50.86
+        },
+        {
+          "hour": 4,
+          "price": 28.41
+        },
+        {
+          "hour": 5,
+          "price": 46.03
+        },
+        {
+          "hour": 6,
+          "price": 61.87
+        },
+        {
+          "hour": 7,
+          "price": 128.72
+        },
+        {
+          "hour": 8,
+          "price": 103.31
+        },
+        {
+          "hour": 9,
+          "price": 100.75
+        },
+        {
+          "hour": 10,
+          "price": 94.06
+        },
+        {
+          "hour": 11,
+          "price": 63.57
+        },
+        {
+          "hour": 12,
+          "price": 83.35
+        },
+        {
+          "hour": 13,
+          "price": 93.61
+        },
+        {
+          "hour": 14,
+          "price": 95.87
+        },
+        {
+          "hour": 15,
+          "price": 82.26
+        },
+        {
+          "hour": 16,
+          "price": 66.53
+        },
+        {
+          "hour": 17,
+          "price": 150.21
+        },
+        {
+          "hour": 18,
+          "price": 159.98
+        },
+        {
+          "hour": 19,
+          "price": 159.4
+        },
+        {
+          "hour": 20,
+          "price": 147.08
+        },
+        {
+          "hour": 21,
+          "price": 74.29
+        },
+        {
+          "hour": 22,
+          "price": 72.81
+        },
+        {
+          "hour": 23,
+          "price": 78.85
+        }
+      ],
+      "avgPrice": 86.16416666666667,
+      "maxPrice": 159.98,
+      "minPrice": 28.41
+    },
+    {
+      "date": "2026-01-12",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 25.97
+        },
+        {
+          "hour": 1,
+          "price": 51.42
+        },
+        {
+          "hour": 2,
+          "price": 57.73
+        },
+        {
+          "hour": 3,
+          "price": 47.58
+        },
+        {
+          "hour": 4,
+          "price": 29.34
+        },
+        {
+          "hour": 5,
+          "price": 22.36
+        },
+        {
+          "hour": 6,
+          "price": 79.85
+        },
+        {
+          "hour": 7,
+          "price": 115.73
+        },
+        {
+          "hour": 8,
+          "price": 125.68
+        },
+        {
+          "hour": 9,
+          "price": 106.91
+        },
+        {
+          "hour": 10,
+          "price": 71.94
+        },
+        {
+          "hour": 11,
+          "price": 98.21
+        },
+        {
+          "hour": 12,
+          "price": 72.09
+        },
+        {
+          "hour": 13,
+          "price": 93.49
+        },
+        {
+          "hour": 14,
+          "price": 96.17
+        },
+        {
+          "hour": 15,
+          "price": 97.34
+        },
+        {
+          "hour": 16,
+          "price": 80.65
+        },
+        {
+          "hour": 17,
+          "price": 151.18
+        },
+        {
+          "hour": 18,
+          "price": 136.83
+        },
+        {
+          "hour": 19,
+          "price": 142.32
+        },
+        {
+          "hour": 20,
+          "price": 134.89
+        },
+        {
+          "hour": 21,
+          "price": 81.82
+        },
+        {
+          "hour": 22,
+          "price": 61.18
+        },
+        {
+          "hour": 23,
+          "price": 85.94
+        }
+      ],
+      "avgPrice": 86.10916666666667,
+      "maxPrice": 151.18,
+      "minPrice": 22.36
+    },
+    {
+      "date": "2026-01-13",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 48.63
+        },
+        {
+          "hour": 1,
+          "price": 46.05
+        },
+        {
+          "hour": 2,
+          "price": 34.71
+        },
+        {
+          "hour": 3,
+          "price": 41.01
+        },
+        {
+          "hour": 4,
+          "price": 57.1
+        },
+        {
+          "hour": 5,
+          "price": 22.9
+        },
+        {
+          "hour": 6,
+          "price": 67.48
+        },
+        {
+          "hour": 7,
+          "price": 108.56
+        },
+        {
+          "hour": 8,
+          "price": 137.28
+        },
+        {
+          "hour": 9,
+          "price": 119.56
+        },
+        {
+          "hour": 10,
+          "price": 62.02
+        },
+        {
+          "hour": 11,
+          "price": 81.57
+        },
+        {
+          "hour": 12,
+          "price": 98.06
+        },
+        {
+          "hour": 13,
+          "price": 94.01
+        },
+        {
+          "hour": 14,
+          "price": 84.73
+        },
+        {
+          "hour": 15,
+          "price": 96.45
+        },
+        {
+          "hour": 16,
+          "price": 74.36
+        },
+        {
+          "hour": 17,
+          "price": 124.37
+        },
+        {
+          "hour": 18,
+          "price": 143.5
+        },
+        {
+          "hour": 19,
+          "price": 138.48
+        },
+        {
+          "hour": 20,
+          "price": 157.93
+        },
+        {
+          "hour": 21,
+          "price": 66.33
+        },
+        {
+          "hour": 22,
+          "price": 93.3
+        },
+        {
+          "hour": 23,
+          "price": 83.85
+        }
+      ],
+      "avgPrice": 86.75999999999999,
+      "maxPrice": 157.93,
+      "minPrice": 22.9
+    },
+    {
+      "date": "2026-01-14",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 49.21
+        },
+        {
+          "hour": 1,
+          "price": 28.07
+        },
+        {
+          "hour": 2,
+          "price": 53.41
+        },
+        {
+          "hour": 3,
+          "price": 34.06
+        },
+        {
+          "hour": 4,
+          "price": 56.35
+        },
+        {
+          "hour": 5,
+          "price": 40.97
+        },
+        {
+          "hour": 6,
+          "price": 82.4
+        },
+        {
+          "hour": 7,
+          "price": 125.59
+        },
+        {
+          "hour": 8,
+          "price": 111.51
+        },
+        {
+          "hour": 9,
+          "price": 133.33
+        },
+        {
+          "hour": 10,
+          "price": 70.37
+        },
+        {
+          "hour": 11,
+          "price": 70.34
+        },
+        {
+          "hour": 12,
+          "price": 66.33
+        },
+        {
+          "hour": 13,
+          "price": 95.07
+        },
+        {
+          "hour": 14,
+          "price": 96.55
+        },
+        {
+          "hour": 15,
+          "price": 60.19
+        },
+        {
+          "hour": 16,
+          "price": 91.24
+        },
+        {
+          "hour": 17,
+          "price": 130.67
+        },
+        {
+          "hour": 18,
+          "price": 147.91
+        },
+        {
+          "hour": 19,
+          "price": 160.2
+        },
+        {
+          "hour": 20,
+          "price": 159.3
+        },
+        {
+          "hour": 21,
+          "price": 74.1
+        },
+        {
+          "hour": 22,
+          "price": 81.66
+        },
+        {
+          "hour": 23,
+          "price": 97.86
+        }
+      ],
+      "avgPrice": 88.19541666666669,
+      "maxPrice": 160.2,
+      "minPrice": 28.07
+    },
+    {
+      "date": "2026-01-15",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 47.28
+        },
+        {
+          "hour": 1,
+          "price": 59.81
+        },
+        {
+          "hour": 2,
+          "price": 50.26
+        },
+        {
+          "hour": 3,
+          "price": 31.3
+        },
+        {
+          "hour": 4,
+          "price": 42.83
+        },
+        {
+          "hour": 5,
+          "price": 20.38
+        },
+        {
+          "hour": 6,
+          "price": 77.1
+        },
+        {
+          "hour": 7,
+          "price": 100.77
+        },
+        {
+          "hour": 8,
+          "price": 103.52
+        },
+        {
+          "hour": 9,
+          "price": 138.19
+        },
+        {
+          "hour": 10,
+          "price": 65.33
+        },
+        {
+          "hour": 11,
+          "price": 78.94
+        },
+        {
+          "hour": 12,
+          "price": 79.94
+        },
+        {
+          "hour": 13,
+          "price": 80.32
+        },
+        {
+          "hour": 14,
+          "price": 97.11
+        },
+        {
+          "hour": 15,
+          "price": 65.02
+        },
+        {
+          "hour": 16,
+          "price": 72.68
+        },
+        {
+          "hour": 17,
+          "price": 129.61
+        },
+        {
+          "hour": 18,
+          "price": 155.44
+        },
+        {
+          "hour": 19,
+          "price": 138.85
+        },
+        {
+          "hour": 20,
+          "price": 154.84
+        },
+        {
+          "hour": 21,
+          "price": 66.7
+        },
+        {
+          "hour": 22,
+          "price": 77.42
+        },
+        {
+          "hour": 23,
+          "price": 71.63
+        }
+      ],
+      "avgPrice": 83.55291666666666,
+      "maxPrice": 155.44,
+      "minPrice": 20.38
+    },
+    {
+      "date": "2026-01-16",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 45.53
+        },
+        {
+          "hour": 1,
+          "price": 24.24
+        },
+        {
+          "hour": 2,
+          "price": 20.41
+        },
+        {
+          "hour": 3,
+          "price": 40.87
+        },
+        {
+          "hour": 4,
+          "price": 30.64
+        },
+        {
+          "hour": 5,
+          "price": 54.38
+        },
+        {
+          "hour": 6,
+          "price": 66.39
+        },
+        {
+          "hour": 7,
+          "price": 117.83
+        },
+        {
+          "hour": 8,
+          "price": 119.26
+        },
+        {
+          "hour": 9,
+          "price": 110.99
+        },
+        {
+          "hour": 10,
+          "price": 95.66
+        },
+        {
+          "hour": 11,
+          "price": 66.65
+        },
+        {
+          "hour": 12,
+          "price": 82.13
+        },
+        {
+          "hour": 13,
+          "price": 77.71
+        },
+        {
+          "hour": 14,
+          "price": 70.81
+        },
+        {
+          "hour": 15,
+          "price": 79
+        },
+        {
+          "hour": 16,
+          "price": 77.89
+        },
+        {
+          "hour": 17,
+          "price": 128.07
+        },
+        {
+          "hour": 18,
+          "price": 161.85
+        },
+        {
+          "hour": 19,
+          "price": 130.39
+        },
+        {
+          "hour": 20,
+          "price": 141.11
+        },
+        {
+          "hour": 21,
+          "price": 63.27
+        },
+        {
+          "hour": 22,
+          "price": 82.33
+        },
+        {
+          "hour": 23,
+          "price": 69.25
+        }
+      ],
+      "avgPrice": 81.52749999999999,
+      "maxPrice": 161.85,
+      "minPrice": 20.41
+    },
+    {
+      "date": "2026-01-17",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 43.72
+        },
+        {
+          "hour": 1,
+          "price": 41.59
+        },
+        {
+          "hour": 2,
+          "price": 49.74
+        },
+        {
+          "hour": 3,
+          "price": 39.4
+        },
+        {
+          "hour": 4,
+          "price": 34
+        },
+        {
+          "hour": 5,
+          "price": 40.66
+        },
+        {
+          "hour": 6,
+          "price": 81.73
+        },
+        {
+          "hour": 7,
+          "price": 122.69
+        },
+        {
+          "hour": 8,
+          "price": 100.98
+        },
+        {
+          "hour": 9,
+          "price": 109.72
+        },
+        {
+          "hour": 10,
+          "price": 73.95
+        },
+        {
+          "hour": 11,
+          "price": 93.72
+        },
+        {
+          "hour": 12,
+          "price": 76.55
+        },
+        {
+          "hour": 13,
+          "price": 93.86
+        },
+        {
+          "hour": 14,
+          "price": 91.83
+        },
+        {
+          "hour": 15,
+          "price": 94.21
+        },
+        {
+          "hour": 16,
+          "price": 79.96
+        },
+        {
+          "hour": 17,
+          "price": 143.68
+        },
+        {
+          "hour": 18,
+          "price": 132.14
+        },
+        {
+          "hour": 19,
+          "price": 142.79
+        },
+        {
+          "hour": 20,
+          "price": 126.85
+        },
+        {
+          "hour": 21,
+          "price": 64.27
+        },
+        {
+          "hour": 22,
+          "price": 94.66
+        },
+        {
+          "hour": 23,
+          "price": 83.23
+        }
+      ],
+      "avgPrice": 85.66375,
+      "maxPrice": 143.68,
+      "minPrice": 34
+    },
+    {
+      "date": "2026-01-18",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 35.12
+        },
+        {
+          "hour": 1,
+          "price": 56.44
+        },
+        {
+          "hour": 2,
+          "price": 24.79
+        },
+        {
+          "hour": 3,
+          "price": 24.46
+        },
+        {
+          "hour": 4,
+          "price": 42.66
+        },
+        {
+          "hour": 5,
+          "price": 48.25
+        },
+        {
+          "hour": 6,
+          "price": 83.03
+        },
+        {
+          "hour": 7,
+          "price": 139.68
+        },
+        {
+          "hour": 8,
+          "price": 122.73
+        },
+        {
+          "hour": 9,
+          "price": 124.28
+        },
+        {
+          "hour": 10,
+          "price": 85.15
+        },
+        {
+          "hour": 11,
+          "price": 93.39
+        },
+        {
+          "hour": 12,
+          "price": 99.33
+        },
+        {
+          "hour": 13,
+          "price": 68.38
+        },
+        {
+          "hour": 14,
+          "price": 82.69
+        },
+        {
+          "hour": 15,
+          "price": 76.32
+        },
+        {
+          "hour": 16,
+          "price": 89.72
+        },
+        {
+          "hour": 17,
+          "price": 160.63
+        },
+        {
+          "hour": 18,
+          "price": 136.15
+        },
+        {
+          "hour": 19,
+          "price": 135.51
+        },
+        {
+          "hour": 20,
+          "price": 155.42
+        },
+        {
+          "hour": 21,
+          "price": 73.31
+        },
+        {
+          "hour": 22,
+          "price": 95.1
+        },
+        {
+          "hour": 23,
+          "price": 68.61
+        }
+      ],
+      "avgPrice": 88.38125000000002,
+      "maxPrice": 160.63,
+      "minPrice": 24.46
+    },
+    {
+      "date": "2026-01-19",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 47.53
+        },
+        {
+          "hour": 1,
+          "price": 28.54
+        },
+        {
+          "hour": 2,
+          "price": 55.67
+        },
+        {
+          "hour": 3,
+          "price": 27.67
+        },
+        {
+          "hour": 4,
+          "price": 48.76
+        },
+        {
+          "hour": 5,
+          "price": 38.6
+        },
+        {
+          "hour": 6,
+          "price": 60.16
+        },
+        {
+          "hour": 7,
+          "price": 116.23
+        },
+        {
+          "hour": 8,
+          "price": 134.77
+        },
+        {
+          "hour": 9,
+          "price": 115.29
+        },
+        {
+          "hour": 10,
+          "price": 80.93
+        },
+        {
+          "hour": 11,
+          "price": 75.76
+        },
+        {
+          "hour": 12,
+          "price": 70.74
+        },
+        {
+          "hour": 13,
+          "price": 92.06
+        },
+        {
+          "hour": 14,
+          "price": 87.95
+        },
+        {
+          "hour": 15,
+          "price": 74.62
+        },
+        {
+          "hour": 16,
+          "price": 74.12
+        },
+        {
+          "hour": 17,
+          "price": 130.38
+        },
+        {
+          "hour": 18,
+          "price": 143.35
+        },
+        {
+          "hour": 19,
+          "price": 140.37
+        },
+        {
+          "hour": 20,
+          "price": 153.53
+        },
+        {
+          "hour": 21,
+          "price": 85.86
+        },
+        {
+          "hour": 22,
+          "price": 72.34
+        },
+        {
+          "hour": 23,
+          "price": 81.25
+        }
+      ],
+      "avgPrice": 84.85333333333332,
+      "maxPrice": 153.53,
+      "minPrice": 27.67
+    },
+    {
+      "date": "2026-01-20",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 47.87
+        },
+        {
+          "hour": 1,
+          "price": 53.06
+        },
+        {
+          "hour": 2,
+          "price": 53.76
+        },
+        {
+          "hour": 3,
+          "price": 20.57
+        },
+        {
+          "hour": 4,
+          "price": 22.92
+        },
+        {
+          "hour": 5,
+          "price": 45.88
+        },
+        {
+          "hour": 6,
+          "price": 81.43
+        },
+        {
+          "hour": 7,
+          "price": 126.68
+        },
+        {
+          "hour": 8,
+          "price": 133.64
+        },
+        {
+          "hour": 9,
+          "price": 135.03
+        },
+        {
+          "hour": 10,
+          "price": 93.87
+        },
+        {
+          "hour": 11,
+          "price": 91.65
+        },
+        {
+          "hour": 12,
+          "price": 86.68
+        },
+        {
+          "hour": 13,
+          "price": 67.29
+        },
+        {
+          "hour": 14,
+          "price": 78.52
+        },
+        {
+          "hour": 15,
+          "price": 86.51
+        },
+        {
+          "hour": 16,
+          "price": 84.7
+        },
+        {
+          "hour": 17,
+          "price": 162.22
+        },
+        {
+          "hour": 18,
+          "price": 157.48
+        },
+        {
+          "hour": 19,
+          "price": 137.55
+        },
+        {
+          "hour": 20,
+          "price": 138.16
+        },
+        {
+          "hour": 21,
+          "price": 70.19
+        },
+        {
+          "hour": 22,
+          "price": 96.65
+        },
+        {
+          "hour": 23,
+          "price": 75.73
+        }
+      ],
+      "avgPrice": 89.50166666666667,
+      "maxPrice": 162.22,
+      "minPrice": 20.57
+    },
+    {
+      "date": "2026-01-21",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 38.13
+        },
+        {
+          "hour": 1,
+          "price": 23.56
+        },
+        {
+          "hour": 2,
+          "price": 50.48
+        },
+        {
+          "hour": 3,
+          "price": 52.96
+        },
+        {
+          "hour": 4,
+          "price": 58.54
+        },
+        {
+          "hour": 5,
+          "price": 49.52
+        },
+        {
+          "hour": 6,
+          "price": 64.91
+        },
+        {
+          "hour": 7,
+          "price": 127.06
+        },
+        {
+          "hour": 8,
+          "price": 139.21
+        },
+        {
+          "hour": 9,
+          "price": 121.95
+        },
+        {
+          "hour": 10,
+          "price": 99.72
+        },
+        {
+          "hour": 11,
+          "price": 76.99
+        },
+        {
+          "hour": 12,
+          "price": 60.28
+        },
+        {
+          "hour": 13,
+          "price": 66.52
+        },
+        {
+          "hour": 14,
+          "price": 61.94
+        },
+        {
+          "hour": 15,
+          "price": 80.89
+        },
+        {
+          "hour": 16,
+          "price": 87
+        },
+        {
+          "hour": 17,
+          "price": 129.58
+        },
+        {
+          "hour": 18,
+          "price": 145.79
+        },
+        {
+          "hour": 19,
+          "price": 163.16
+        },
+        {
+          "hour": 20,
+          "price": 130.06
+        },
+        {
+          "hour": 21,
+          "price": 73.99
+        },
+        {
+          "hour": 22,
+          "price": 71.51
+        },
+        {
+          "hour": 23,
+          "price": 81
+        }
+      ],
+      "avgPrice": 85.61458333333333,
+      "maxPrice": 163.16,
+      "minPrice": 23.56
+    },
+    {
+      "date": "2026-01-22",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 46.79
+        },
+        {
+          "hour": 1,
+          "price": 58.26
+        },
+        {
+          "hour": 2,
+          "price": 49.45
+        },
+        {
+          "hour": 3,
+          "price": 28.36
+        },
+        {
+          "hour": 4,
+          "price": 31.75
+        },
+        {
+          "hour": 5,
+          "price": 28.17
+        },
+        {
+          "hour": 6,
+          "price": 76.64
+        },
+        {
+          "hour": 7,
+          "price": 138.38
+        },
+        {
+          "hour": 8,
+          "price": 112.44
+        },
+        {
+          "hour": 9,
+          "price": 101.62
+        },
+        {
+          "hour": 10,
+          "price": 91.92
+        },
+        {
+          "hour": 11,
+          "price": 76.86
+        },
+        {
+          "hour": 12,
+          "price": 99.97
+        },
+        {
+          "hour": 13,
+          "price": 65.87
+        },
+        {
+          "hour": 14,
+          "price": 93.71
+        },
+        {
+          "hour": 15,
+          "price": 88.35
+        },
+        {
+          "hour": 16,
+          "price": 73.52
+        },
+        {
+          "hour": 17,
+          "price": 141.92
+        },
+        {
+          "hour": 18,
+          "price": 148.74
+        },
+        {
+          "hour": 19,
+          "price": 145.9
+        },
+        {
+          "hour": 20,
+          "price": 138.11
+        },
+        {
+          "hour": 21,
+          "price": 75.2
+        },
+        {
+          "hour": 22,
+          "price": 96.37
+        },
+        {
+          "hour": 23,
+          "price": 66.71
+        }
+      ],
+      "avgPrice": 86.45875000000001,
+      "maxPrice": 148.74,
+      "minPrice": 28.17
+    },
+    {
+      "date": "2026-01-23",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 54.72
+        },
+        {
+          "hour": 1,
+          "price": 56.2
+        },
+        {
+          "hour": 2,
+          "price": 22.13
+        },
+        {
+          "hour": 3,
+          "price": 54.53
+        },
+        {
+          "hour": 4,
+          "price": 21.1
+        },
+        {
+          "hour": 5,
+          "price": 26.52
+        },
+        {
+          "hour": 6,
+          "price": 80.67
+        },
+        {
+          "hour": 7,
+          "price": 101.93
+        },
+        {
+          "hour": 8,
+          "price": 118.61
+        },
+        {
+          "hour": 9,
+          "price": 108.63
+        },
+        {
+          "hour": 10,
+          "price": 60.8
+        },
+        {
+          "hour": 11,
+          "price": 66.19
+        },
+        {
+          "hour": 12,
+          "price": 60.22
+        },
+        {
+          "hour": 13,
+          "price": 88.3
+        },
+        {
+          "hour": 14,
+          "price": 79.41
+        },
+        {
+          "hour": 15,
+          "price": 64.45
+        },
+        {
+          "hour": 16,
+          "price": 93.16
+        },
+        {
+          "hour": 17,
+          "price": 150.96
+        },
+        {
+          "hour": 18,
+          "price": 144.62
+        },
+        {
+          "hour": 19,
+          "price": 158.46
+        },
+        {
+          "hour": 20,
+          "price": 154.21
+        },
+        {
+          "hour": 21,
+          "price": 74.86
+        },
+        {
+          "hour": 22,
+          "price": 64.8
+        },
+        {
+          "hour": 23,
+          "price": 91.33
+        }
+      ],
+      "avgPrice": 83.20041666666667,
+      "maxPrice": 158.46,
+      "minPrice": 21.1
+    },
+    {
+      "date": "2026-01-24",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 47.74
+        },
+        {
+          "hour": 1,
+          "price": 26.85
+        },
+        {
+          "hour": 2,
+          "price": 22.48
+        },
+        {
+          "hour": 3,
+          "price": 40.26
+        },
+        {
+          "hour": 4,
+          "price": 49.24
+        },
+        {
+          "hour": 5,
+          "price": 38.67
+        },
+        {
+          "hour": 6,
+          "price": 73.32
+        },
+        {
+          "hour": 7,
+          "price": 136.52
+        },
+        {
+          "hour": 8,
+          "price": 113.94
+        },
+        {
+          "hour": 9,
+          "price": 108.19
+        },
+        {
+          "hour": 10,
+          "price": 74.12
+        },
+        {
+          "hour": 11,
+          "price": 74.24
+        },
+        {
+          "hour": 12,
+          "price": 72.99
+        },
+        {
+          "hour": 13,
+          "price": 76.44
+        },
+        {
+          "hour": 14,
+          "price": 70.39
+        },
+        {
+          "hour": 15,
+          "price": 95.06
+        },
+        {
+          "hour": 16,
+          "price": 61.55
+        },
+        {
+          "hour": 17,
+          "price": 141.62
+        },
+        {
+          "hour": 18,
+          "price": 142.32
+        },
+        {
+          "hour": 19,
+          "price": 150.05
+        },
+        {
+          "hour": 20,
+          "price": 134.08
+        },
+        {
+          "hour": 21,
+          "price": 81.1
+        },
+        {
+          "hour": 22,
+          "price": 86.71
+        },
+        {
+          "hour": 23,
+          "price": 72.55
+        }
+      ],
+      "avgPrice": 82.93458333333332,
+      "maxPrice": 150.05,
+      "minPrice": 22.48
+    },
+    {
+      "date": "2026-01-25",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 54.1
+        },
+        {
+          "hour": 1,
+          "price": 44.98
+        },
+        {
+          "hour": 2,
+          "price": 45.17
+        },
+        {
+          "hour": 3,
+          "price": 52.51
+        },
+        {
+          "hour": 4,
+          "price": 30.48
+        },
+        {
+          "hour": 5,
+          "price": 43.36
+        },
+        {
+          "hour": 6,
+          "price": 92.29
+        },
+        {
+          "hour": 7,
+          "price": 127.73
+        },
+        {
+          "hour": 8,
+          "price": 127.74
+        },
+        {
+          "hour": 9,
+          "price": 135.64
+        },
+        {
+          "hour": 10,
+          "price": 81.74
+        },
+        {
+          "hour": 11,
+          "price": 69.46
+        },
+        {
+          "hour": 12,
+          "price": 97.18
+        },
+        {
+          "hour": 13,
+          "price": 98.4
+        },
+        {
+          "hour": 14,
+          "price": 98.41
+        },
+        {
+          "hour": 15,
+          "price": 89.27
+        },
+        {
+          "hour": 16,
+          "price": 80.86
+        },
+        {
+          "hour": 17,
+          "price": 143.18
+        },
+        {
+          "hour": 18,
+          "price": 162.8
+        },
+        {
+          "hour": 19,
+          "price": 157.91
+        },
+        {
+          "hour": 20,
+          "price": 162.44
+        },
+        {
+          "hour": 21,
+          "price": 95.48
+        },
+        {
+          "hour": 22,
+          "price": 65.57
+        },
+        {
+          "hour": 23,
+          "price": 61.76
+        }
+      ],
+      "avgPrice": 92.43583333333335,
+      "maxPrice": 162.8,
+      "minPrice": 30.48
+    },
+    {
+      "date": "2026-01-26",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 28.39
+        },
+        {
+          "hour": 1,
+          "price": 58.14
+        },
+        {
+          "hour": 2,
+          "price": 57.11
+        },
+        {
+          "hour": 3,
+          "price": 55.68
+        },
+        {
+          "hour": 4,
+          "price": 39.82
+        },
+        {
+          "hour": 5,
+          "price": 37.91
+        },
+        {
+          "hour": 6,
+          "price": 77.13
+        },
+        {
+          "hour": 7,
+          "price": 104.99
+        },
+        {
+          "hour": 8,
+          "price": 124.86
+        },
+        {
+          "hour": 9,
+          "price": 134.2
+        },
+        {
+          "hour": 10,
+          "price": 82.03
+        },
+        {
+          "hour": 11,
+          "price": 62.63
+        },
+        {
+          "hour": 12,
+          "price": 99.79
+        },
+        {
+          "hour": 13,
+          "price": 99.39
+        },
+        {
+          "hour": 14,
+          "price": 89.4
+        },
+        {
+          "hour": 15,
+          "price": 76.18
+        },
+        {
+          "hour": 16,
+          "price": 77.57
+        },
+        {
+          "hour": 17,
+          "price": 149.8
+        },
+        {
+          "hour": 18,
+          "price": 125.66
+        },
+        {
+          "hour": 19,
+          "price": 133.01
+        },
+        {
+          "hour": 20,
+          "price": 135.03
+        },
+        {
+          "hour": 21,
+          "price": 81.97
+        },
+        {
+          "hour": 22,
+          "price": 74.1
+        },
+        {
+          "hour": 23,
+          "price": 74.26
+        }
+      ],
+      "avgPrice": 86.62708333333335,
+      "maxPrice": 149.8,
+      "minPrice": 28.39
+    },
+    {
+      "date": "2026-01-27",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 29.43
+        },
+        {
+          "hour": 1,
+          "price": 46.82
+        },
+        {
+          "hour": 2,
+          "price": 41.26
+        },
+        {
+          "hour": 3,
+          "price": 53.73
+        },
+        {
+          "hour": 4,
+          "price": 55.23
+        },
+        {
+          "hour": 5,
+          "price": 32.98
+        },
+        {
+          "hour": 6,
+          "price": 77.03
+        },
+        {
+          "hour": 7,
+          "price": 125.76
+        },
+        {
+          "hour": 8,
+          "price": 139.24
+        },
+        {
+          "hour": 9,
+          "price": 106.01
+        },
+        {
+          "hour": 10,
+          "price": 71.03
+        },
+        {
+          "hour": 11,
+          "price": 86.86
+        },
+        {
+          "hour": 12,
+          "price": 77.5
+        },
+        {
+          "hour": 13,
+          "price": 89.18
+        },
+        {
+          "hour": 14,
+          "price": 91.92
+        },
+        {
+          "hour": 15,
+          "price": 92.4
+        },
+        {
+          "hour": 16,
+          "price": 84.46
+        },
+        {
+          "hour": 17,
+          "price": 162.51
+        },
+        {
+          "hour": 18,
+          "price": 141.39
+        },
+        {
+          "hour": 19,
+          "price": 150.53
+        },
+        {
+          "hour": 20,
+          "price": 148.33
+        },
+        {
+          "hour": 21,
+          "price": 69.48
+        },
+        {
+          "hour": 22,
+          "price": 64.55
+        },
+        {
+          "hour": 23,
+          "price": 89.44
+        }
+      ],
+      "avgPrice": 88.62791666666668,
+      "maxPrice": 162.51,
+      "minPrice": 29.43
+    },
+    {
+      "date": "2026-01-28",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 57.04
+        },
+        {
+          "hour": 1,
+          "price": 29.44
+        },
+        {
+          "hour": 2,
+          "price": 24.93
+        },
+        {
+          "hour": 3,
+          "price": 50.32
+        },
+        {
+          "hour": 4,
+          "price": 58.39
+        },
+        {
+          "hour": 5,
+          "price": 34.41
+        },
+        {
+          "hour": 6,
+          "price": 80.54
+        },
+        {
+          "hour": 7,
+          "price": 125.43
+        },
+        {
+          "hour": 8,
+          "price": 136.91
+        },
+        {
+          "hour": 9,
+          "price": 120
+        },
+        {
+          "hour": 10,
+          "price": 98.41
+        },
+        {
+          "hour": 11,
+          "price": 90.74
+        },
+        {
+          "hour": 12,
+          "price": 82.86
+        },
+        {
+          "hour": 13,
+          "price": 73.97
+        },
+        {
+          "hour": 14,
+          "price": 81.68
+        },
+        {
+          "hour": 15,
+          "price": 87.58
+        },
+        {
+          "hour": 16,
+          "price": 80.08
+        },
+        {
+          "hour": 17,
+          "price": 131.81
+        },
+        {
+          "hour": 18,
+          "price": 148.13
+        },
+        {
+          "hour": 19,
+          "price": 156.31
+        },
+        {
+          "hour": 20,
+          "price": 162.36
+        },
+        {
+          "hour": 21,
+          "price": 90.8
+        },
+        {
+          "hour": 22,
+          "price": 92
+        },
+        {
+          "hour": 23,
+          "price": 70.23
+        }
+      ],
+      "avgPrice": 90.18208333333331,
+      "maxPrice": 162.36,
+      "minPrice": 24.93
+    },
+    {
+      "date": "2026-01-29",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 58.25
+        },
+        {
+          "hour": 1,
+          "price": 56.31
+        },
+        {
+          "hour": 2,
+          "price": 20.11
+        },
+        {
+          "hour": 3,
+          "price": 55.77
+        },
+        {
+          "hour": 4,
+          "price": 55.51
+        },
+        {
+          "hour": 5,
+          "price": 29.17
+        },
+        {
+          "hour": 6,
+          "price": 95.66
+        },
+        {
+          "hour": 7,
+          "price": 120.54
+        },
+        {
+          "hour": 8,
+          "price": 101.15
+        },
+        {
+          "hour": 9,
+          "price": 135.02
+        },
+        {
+          "hour": 10,
+          "price": 90.81
+        },
+        {
+          "hour": 11,
+          "price": 61.77
+        },
+        {
+          "hour": 12,
+          "price": 96.41
+        },
+        {
+          "hour": 13,
+          "price": 66.34
+        },
+        {
+          "hour": 14,
+          "price": 70.61
+        },
+        {
+          "hour": 15,
+          "price": 82.25
+        },
+        {
+          "hour": 16,
+          "price": 78.78
+        },
+        {
+          "hour": 17,
+          "price": 143.72
+        },
+        {
+          "hour": 18,
+          "price": 138.73
+        },
+        {
+          "hour": 19,
+          "price": 148.15
+        },
+        {
+          "hour": 20,
+          "price": 124.18
+        },
+        {
+          "hour": 21,
+          "price": 65.8
+        },
+        {
+          "hour": 22,
+          "price": 63.12
+        },
+        {
+          "hour": 23,
+          "price": 81.42
+        }
+      ],
+      "avgPrice": 84.9825,
+      "maxPrice": 148.15,
+      "minPrice": 20.11
+    },
+    {
+      "date": "2026-01-30",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 32.6
+        },
+        {
+          "hour": 1,
+          "price": 26.48
+        },
+        {
+          "hour": 2,
+          "price": 23.1
+        },
+        {
+          "hour": 3,
+          "price": 46.59
+        },
+        {
+          "hour": 4,
+          "price": 56.99
+        },
+        {
+          "hour": 5,
+          "price": 57.13
+        },
+        {
+          "hour": 6,
+          "price": 99.9
+        },
+        {
+          "hour": 7,
+          "price": 132.75
+        },
+        {
+          "hour": 8,
+          "price": 107.42
+        },
+        {
+          "hour": 9,
+          "price": 109.43
+        },
+        {
+          "hour": 10,
+          "price": 62.83
+        },
+        {
+          "hour": 11,
+          "price": 99.12
+        },
+        {
+          "hour": 12,
+          "price": 70.84
+        },
+        {
+          "hour": 13,
+          "price": 97.44
+        },
+        {
+          "hour": 14,
+          "price": 68.26
+        },
+        {
+          "hour": 15,
+          "price": 94.53
+        },
+        {
+          "hour": 16,
+          "price": 95.56
+        },
+        {
+          "hour": 17,
+          "price": 139.39
+        },
+        {
+          "hour": 18,
+          "price": 132.39
+        },
+        {
+          "hour": 19,
+          "price": 151.73
+        },
+        {
+          "hour": 20,
+          "price": 132.25
+        },
+        {
+          "hour": 21,
+          "price": 86.08
+        },
+        {
+          "hour": 22,
+          "price": 91.05
+        },
+        {
+          "hour": 23,
+          "price": 85.17
+        }
+      ],
+      "avgPrice": 87.45958333333333,
+      "maxPrice": 151.73,
+      "minPrice": 23.1
+    },
+    {
+      "date": "2026-01-31",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 49.02
+        },
+        {
+          "hour": 1,
+          "price": 34.17
+        },
+        {
+          "hour": 2,
+          "price": 49.83
+        },
+        {
+          "hour": 3,
+          "price": 22.38
+        },
+        {
+          "hour": 4,
+          "price": 43.07
+        },
+        {
+          "hour": 5,
+          "price": 50.8
+        },
+        {
+          "hour": 6,
+          "price": 90.19
+        },
+        {
+          "hour": 7,
+          "price": 109.08
+        },
+        {
+          "hour": 8,
+          "price": 136.19
+        },
+        {
+          "hour": 9,
+          "price": 106.46
+        },
+        {
+          "hour": 10,
+          "price": 95.31
+        },
+        {
+          "hour": 11,
+          "price": 92.02
+        },
+        {
+          "hour": 12,
+          "price": 95.48
+        },
+        {
+          "hour": 13,
+          "price": 76.89
+        },
+        {
+          "hour": 14,
+          "price": 63.31
+        },
+        {
+          "hour": 15,
+          "price": 74.34
+        },
+        {
+          "hour": 16,
+          "price": 64.85
+        },
+        {
+          "hour": 17,
+          "price": 163.16
+        },
+        {
+          "hour": 18,
+          "price": 126.37
+        },
+        {
+          "hour": 19,
+          "price": 127.31
+        },
+        {
+          "hour": 20,
+          "price": 132.7
+        },
+        {
+          "hour": 21,
+          "price": 88.69
+        },
+        {
+          "hour": 22,
+          "price": 67.7
+        },
+        {
+          "hour": 23,
+          "price": 98.24
+        }
+      ],
+      "avgPrice": 85.73166666666667,
+      "maxPrice": 163.16,
+      "minPrice": 22.38
+    },
+    {
+      "date": "2026-02-01",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 47.99
+        },
+        {
+          "hour": 1,
+          "price": 51.76
+        },
+        {
+          "hour": 2,
+          "price": 29.94
+        },
+        {
+          "hour": 3,
+          "price": 49.08
+        },
+        {
+          "hour": 4,
+          "price": 23.6
+        },
+        {
+          "hour": 5,
+          "price": 33.76
+        },
+        {
+          "hour": 6,
+          "price": 75.33
+        },
+        {
+          "hour": 7,
+          "price": 115.02
+        },
+        {
+          "hour": 8,
+          "price": 105.7
+        },
+        {
+          "hour": 9,
+          "price": 138.39
+        },
+        {
+          "hour": 10,
+          "price": 71.4
+        },
+        {
+          "hour": 11,
+          "price": 79.43
+        },
+        {
+          "hour": 12,
+          "price": 90.17
+        },
+        {
+          "hour": 13,
+          "price": 84.16
+        },
+        {
+          "hour": 14,
+          "price": 98.22
+        },
+        {
+          "hour": 15,
+          "price": 94.2
+        },
+        {
+          "hour": 16,
+          "price": 87.87
+        },
+        {
+          "hour": 17,
+          "price": 149.96
+        },
+        {
+          "hour": 18,
+          "price": 143.89
+        },
+        {
+          "hour": 19,
+          "price": 143.29
+        },
+        {
+          "hour": 20,
+          "price": 132.46
+        },
+        {
+          "hour": 21,
+          "price": 66.04
+        },
+        {
+          "hour": 22,
+          "price": 62.97
+        },
+        {
+          "hour": 23,
+          "price": 76.46
+        }
+      ],
+      "avgPrice": 85.46208333333333,
+      "maxPrice": 149.96,
+      "minPrice": 23.6
+    },
+    {
+      "date": "2026-02-02",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 35.52
+        },
+        {
+          "hour": 1,
+          "price": 51.75
+        },
+        {
+          "hour": 2,
+          "price": 40.61
+        },
+        {
+          "hour": 3,
+          "price": 53.09
+        },
+        {
+          "hour": 4,
+          "price": 54.65
+        },
+        {
+          "hour": 5,
+          "price": 46.34
+        },
+        {
+          "hour": 6,
+          "price": 65.9
+        },
+        {
+          "hour": 7,
+          "price": 118.93
+        },
+        {
+          "hour": 8,
+          "price": 114.66
+        },
+        {
+          "hour": 9,
+          "price": 138.51
+        },
+        {
+          "hour": 10,
+          "price": 97.46
+        },
+        {
+          "hour": 11,
+          "price": 63.87
+        },
+        {
+          "hour": 12,
+          "price": 92.56
+        },
+        {
+          "hour": 13,
+          "price": 66.95
+        },
+        {
+          "hour": 14,
+          "price": 88.48
+        },
+        {
+          "hour": 15,
+          "price": 60.57
+        },
+        {
+          "hour": 16,
+          "price": 66.79
+        },
+        {
+          "hour": 17,
+          "price": 156.01
+        },
+        {
+          "hour": 18,
+          "price": 143.91
+        },
+        {
+          "hour": 19,
+          "price": 132.57
+        },
+        {
+          "hour": 20,
+          "price": 129.69
+        },
+        {
+          "hour": 21,
+          "price": 65.39
+        },
+        {
+          "hour": 22,
+          "price": 77.59
+        },
+        {
+          "hour": 23,
+          "price": 73.09
+        }
+      ],
+      "avgPrice": 84.78708333333334,
+      "maxPrice": 156.01,
+      "minPrice": 35.52
+    },
+    {
+      "date": "2026-02-03",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 21.3
+        },
+        {
+          "hour": 1,
+          "price": 54.03
+        },
+        {
+          "hour": 2,
+          "price": 56.21
+        },
+        {
+          "hour": 3,
+          "price": 38.84
+        },
+        {
+          "hour": 4,
+          "price": 57.87
+        },
+        {
+          "hour": 5,
+          "price": 29.17
+        },
+        {
+          "hour": 6,
+          "price": 64.53
+        },
+        {
+          "hour": 7,
+          "price": 112.22
+        },
+        {
+          "hour": 8,
+          "price": 112.27
+        },
+        {
+          "hour": 9,
+          "price": 103.98
+        },
+        {
+          "hour": 10,
+          "price": 66.68
+        },
+        {
+          "hour": 11,
+          "price": 99.56
+        },
+        {
+          "hour": 12,
+          "price": 61.08
+        },
+        {
+          "hour": 13,
+          "price": 67.95
+        },
+        {
+          "hour": 14,
+          "price": 83.36
+        },
+        {
+          "hour": 15,
+          "price": 88.6
+        },
+        {
+          "hour": 16,
+          "price": 70.31
+        },
+        {
+          "hour": 17,
+          "price": 147.05
+        },
+        {
+          "hour": 18,
+          "price": 138.42
+        },
+        {
+          "hour": 19,
+          "price": 155.75
+        },
+        {
+          "hour": 20,
+          "price": 145.65
+        },
+        {
+          "hour": 21,
+          "price": 81.26
+        },
+        {
+          "hour": 22,
+          "price": 72.19
+        },
+        {
+          "hour": 23,
+          "price": 60.11
+        }
+      ],
+      "avgPrice": 82.84958333333334,
+      "maxPrice": 155.75,
+      "minPrice": 21.3
+    },
+    {
+      "date": "2026-02-04",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 49
+        },
+        {
+          "hour": 1,
+          "price": 57.64
+        },
+        {
+          "hour": 2,
+          "price": 34.37
+        },
+        {
+          "hour": 3,
+          "price": 43.41
+        },
+        {
+          "hour": 4,
+          "price": 37.44
+        },
+        {
+          "hour": 5,
+          "price": 55.07
+        },
+        {
+          "hour": 6,
+          "price": 87.06
+        },
+        {
+          "hour": 7,
+          "price": 134.25
+        },
+        {
+          "hour": 8,
+          "price": 124.99
+        },
+        {
+          "hour": 9,
+          "price": 116.14
+        },
+        {
+          "hour": 10,
+          "price": 92.38
+        },
+        {
+          "hour": 11,
+          "price": 77.25
+        },
+        {
+          "hour": 12,
+          "price": 84.39
+        },
+        {
+          "hour": 13,
+          "price": 65.83
+        },
+        {
+          "hour": 14,
+          "price": 82.65
+        },
+        {
+          "hour": 15,
+          "price": 92.42
+        },
+        {
+          "hour": 16,
+          "price": 75.52
+        },
+        {
+          "hour": 17,
+          "price": 142.86
+        },
+        {
+          "hour": 18,
+          "price": 156.14
+        },
+        {
+          "hour": 19,
+          "price": 153.22
+        },
+        {
+          "hour": 20,
+          "price": 128.5
+        },
+        {
+          "hour": 21,
+          "price": 83.27
+        },
+        {
+          "hour": 22,
+          "price": 83.39
+        },
+        {
+          "hour": 23,
+          "price": 90.76
+        }
+      ],
+      "avgPrice": 89.49791666666668,
+      "maxPrice": 156.14,
+      "minPrice": 34.37
+    },
+    {
+      "date": "2026-02-05",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 49.3
+        },
+        {
+          "hour": 1,
+          "price": 39.79
+        },
+        {
+          "hour": 2,
+          "price": 59.85
+        },
+        {
+          "hour": 3,
+          "price": 23.72
+        },
+        {
+          "hour": 4,
+          "price": 56.62
+        },
+        {
+          "hour": 5,
+          "price": 51.65
+        },
+        {
+          "hour": 6,
+          "price": 75.66
+        },
+        {
+          "hour": 7,
+          "price": 136.77
+        },
+        {
+          "hour": 8,
+          "price": 103.98
+        },
+        {
+          "hour": 9,
+          "price": 127.6
+        },
+        {
+          "hour": 10,
+          "price": 93.92
+        },
+        {
+          "hour": 11,
+          "price": 68.38
+        },
+        {
+          "hour": 12,
+          "price": 99.12
+        },
+        {
+          "hour": 13,
+          "price": 93.74
+        },
+        {
+          "hour": 14,
+          "price": 76.36
+        },
+        {
+          "hour": 15,
+          "price": 91.58
+        },
+        {
+          "hour": 16,
+          "price": 76.91
+        },
+        {
+          "hour": 17,
+          "price": 159.85
+        },
+        {
+          "hour": 18,
+          "price": 136.58
+        },
+        {
+          "hour": 19,
+          "price": 153.86
+        },
+        {
+          "hour": 20,
+          "price": 160.92
+        },
+        {
+          "hour": 21,
+          "price": 61.79
+        },
+        {
+          "hour": 22,
+          "price": 69.43
+        },
+        {
+          "hour": 23,
+          "price": 62.1
+        }
+      ],
+      "avgPrice": 88.72833333333331,
+      "maxPrice": 160.92,
+      "minPrice": 23.72
+    },
+    {
+      "date": "2026-02-06",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 52.56
+        },
+        {
+          "hour": 1,
+          "price": 49.7
+        },
+        {
+          "hour": 2,
+          "price": 22.8
+        },
+        {
+          "hour": 3,
+          "price": 59.24
+        },
+        {
+          "hour": 4,
+          "price": 49.48
+        },
+        {
+          "hour": 5,
+          "price": 58.85
+        },
+        {
+          "hour": 6,
+          "price": 83.83
+        },
+        {
+          "hour": 7,
+          "price": 104.6
+        },
+        {
+          "hour": 8,
+          "price": 136.79
+        },
+        {
+          "hour": 9,
+          "price": 120.66
+        },
+        {
+          "hour": 10,
+          "price": 91.98
+        },
+        {
+          "hour": 11,
+          "price": 84.94
+        },
+        {
+          "hour": 12,
+          "price": 75.6
+        },
+        {
+          "hour": 13,
+          "price": 78.79
+        },
+        {
+          "hour": 14,
+          "price": 85.63
+        },
+        {
+          "hour": 15,
+          "price": 61.52
+        },
+        {
+          "hour": 16,
+          "price": 95.3
+        },
+        {
+          "hour": 17,
+          "price": 149.36
+        },
+        {
+          "hour": 18,
+          "price": 130.16
+        },
+        {
+          "hour": 19,
+          "price": 126.67
+        },
+        {
+          "hour": 20,
+          "price": 149.69
+        },
+        {
+          "hour": 21,
+          "price": 93.52
+        },
+        {
+          "hour": 22,
+          "price": 74.05
+        },
+        {
+          "hour": 23,
+          "price": 69.9
+        }
+      ],
+      "avgPrice": 87.73416666666667,
+      "maxPrice": 149.69,
+      "minPrice": 22.8
+    },
+    {
+      "date": "2026-02-07",
+      "area": "FI",
+      "hourlyPrices": [
+        {
+          "hour": 0,
+          "price": 40.58
+        },
+        {
+          "hour": 1,
+          "price": 44.14
+        },
+        {
+          "hour": 2,
+          "price": 20.63
+        },
+        {
+          "hour": 3,
+          "price": 38.72
+        },
+        {
+          "hour": 4,
+          "price": 39.8
+        },
+        {
+          "hour": 5,
+          "price": 58.74
+        },
+        {
+          "hour": 6,
+          "price": 74.9
+        },
+        {
+          "hour": 7,
+          "price": 137.12
+        },
+        {
+          "hour": 8,
+          "price": 136.19
+        },
+        {
+          "hour": 9,
+          "price": 126.28
+        },
+        {
+          "hour": 10,
+          "price": 74.39
+        },
+        {
+          "hour": 11,
+          "price": 77.13
+        },
+        {
+          "hour": 12,
+          "price": 70.61
+        },
+        {
+          "hour": 13,
+          "price": 64.2
+        },
+        {
+          "hour": 14,
+          "price": 75.44
+        },
+        {
+          "hour": 15,
+          "price": 76.86
+        },
+        {
+          "hour": 16,
+          "price": 96.08
+        },
+        {
+          "hour": 17,
+          "price": 147.58
+        },
+        {
+          "hour": 18,
+          "price": 143.78
+        },
+        {
+          "hour": 19,
+          "price": 147.82
+        },
+        {
+          "hour": 20,
+          "price": 146.07
+        },
+        {
+          "hour": 21,
+          "price": 66.92
+        },
+        {
+          "hour": 22,
+          "price": 85.6
+        },
+        {
+          "hour": 23,
+          "price": 64.29
+        }
+      ],
+      "avgPrice": 85.57791666666664,
+      "maxPrice": 147.82,
+      "minPrice": 20.63
+    }
+  ]
+}

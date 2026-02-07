@@ -1,0 +1,21 @@
+{
+  "weights": [
+    -2.3119895289872544e+50,
+    1.181666757957236e+51,
+    -8.45665667036488e+49,
+    0,
+    0,
+    -2.4575435955510623e+49,
+    -2.3119895289872544e+50
+  ],
+  "bias": -8.45665667036488e+49,
+  "featureNames": [
+    "windSpeed",
+    "temperature",
+    "isWinter",
+    "isMorningPeak",
+    "isEveningPeak",
+    "isWeekend",
+    "windSpeed_x_isWinter"
+  ]
+}
