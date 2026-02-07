@@ -85,6 +85,8 @@ Pull requests welcome! For major changes, please open an issue first.
 
 MIT
 
+<!-- Test commit for GitHub Actions -->
+
 ## 🙏 Credits
 
 - Weather data: [yr.no](https://www.yr.no) (MET Norway)
