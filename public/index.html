@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WindPowers - Nordic Wind & Energy Forecast</title>
+    <title>WindPowers - Real-Time Nordic Wind Dashboard</title>
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💨</text></svg>">
@@ -14,9 +14,13 @@
             <div class="logo">
                 <span class="logo-icon">💨</span>
                 <h1>WindPowers</h1>
-                <span class="tagline">Nordic Wind & Energy Forecast</span>
+                <span class="tagline">Real-Time Nordic Wind Dashboard</span>
             </div>
             <div class="controls">
+                <div class="connection-status">
+                    <span class="status-dot" id="status-dot"></span>
+                    <span id="connection-status">🔴 Connecting...</span>
+                </div>
                 <div class="forecast-slider">
                     <label>Forecast:</label>
                     <input type="range" id="day-slider" min="0" max="8" value="0">
@@ -32,6 +36,51 @@
         
         <main class="main">
             <div id="map"></div>
+            
+            <!-- Dashboard Metrics Panel -->
+            <div class="dashboard-panel">
+                <h4>📊 Live Metrics</h4>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <span class="metric-label">Avg Wind</span>
+                        <span class="metric-value" id="avg-wind">--</span>
+                        <span class="metric-unit">m/s</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Max Wind</span>
+                        <span class="metric-value" id="max-wind">--</span>
+                        <span class="metric-unit">m/s</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Min Temp</span>
+                        <span class="metric-value" id="min-temp">--</span>
+                        <span class="metric-unit">°C</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Max Temp</span>
+                        <span class="metric-value" id="max-temp">--</span>
+                        <span class="metric-unit">°C</span>
+                    </div>
+                </div>
+                <div class="last-update">
+                    Last update: <span id="last-update">--</span>
+                </div>
+            </div>
+            
+            <!-- Alerts Panel -->
+            <div class="alerts-panel">
+                <h4>⚠️ Wind Alerts</h4>
+                <div class="alert-count" id="alert-count">0</div>
+                <div class="alert-threshold">≥12 m/s</div>
+                <div class="alerts-list" id="alerts-list">
+                    <div class="no-alerts">No high wind alerts</div>
+                </div>
+            </div>
+            
+            <!-- Update Indicator -->
+            <div id="update-indicator" class="update-indicator">
+                <span>🔄 Data Updated</span>
+            </div>
             
             <!-- Price Forecast Panel -->
             <div class="price-panel" id="price-panel">
@@ -82,11 +131,12 @@
         
         <footer class="footer">
             <span>Weather: <a href="https://www.yr.no" target="_blank">yr.no</a> (MET Norway) | Prices: Nordpool</span>
-            <span>Built by Jarvis ⚡ | Prompts by Ilmari</span>
+            <span>Built by Jarvis ⚡ | Real-Time Dashboard</span>
         </footer>
     </div>
     
     <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
