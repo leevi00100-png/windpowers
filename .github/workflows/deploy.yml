@@ -47,7 +47,7 @@ jobs:
         run: vercel pull --environment=production --yes
         
       - name: Build
-        run: vercel build
-        
+        run: vercel build --prod
+
       - name: Deploy to Production
         run: vercel deploy --prebuilt --prod
