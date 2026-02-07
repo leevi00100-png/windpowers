@@ -22,12 +22,18 @@ jobs:
         
       - name: Pull Preview Environment
         run: vercel pull --environment=preview --yes
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         
       - name: Build
         run: vercel build
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         
       - name: Deploy to Preview
         run: vercel deploy --prebuilt
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
   deploy-production:
     if: github.ref == 'refs/heads/main'
@@ -45,9 +51,15 @@ jobs:
         
       - name: Pull Production Environment
         run: vercel pull --environment=production --yes
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         
       - name: Build
         run: vercel build --prod
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy to Production
         run: vercel deploy --prebuilt --prod
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
