@@ -798,8 +798,7 @@ function addWindSources() {
     
     // Load arrow icon and add symbol layer for wind direction arrows
     // This is much faster than DOM markers
-    // TEMPORARILY DISABLED - arrow.png needs to be added
-    // loadArrowIcon();
+    loadArrowIcon();
 }
 
 function getWindGeoJSON() {
