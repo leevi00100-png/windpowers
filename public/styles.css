@@ -24,6 +24,19 @@
     width: 100%;
 }
 
+.legend-panel {
+    background: var(--surface);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    box-shadow: var(--shadow-md);
+}
+
+.price-forecast {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
 .toggle-panels-btn {
     display: none;
 }
