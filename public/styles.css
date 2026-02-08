@@ -1,55 +1,88 @@
 /* Variables and base */
 :root {
     --surface: #ffffff;
-    --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15);
-    --border-panel: 1px solid rgba(0, 0, 0, 0.12);
+    --surface-subtle: #f8fafc;
+    --border-panel: 1px solid rgba(0, 0, 0, 0.06);
+    --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --radius: 8px;
+    --radius-sm: 6px;
+    --transition: 0.2s ease;
+    --primary: #3b82f6;
+    --primary-light: #eff6ff;
+    --header-height: 64px;
+}
+
+/* App layout: header fixed at top, main fills rest */
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.main {
+    flex: 1;
+    position: relative;
+    min-height: 0;
 }
 
 /* Desktop Styles */
 .header {
     position: relative;
     z-index: 50;
+    flex-shrink: 0;
+    min-height: var(--header-height);
+    box-sizing: border-box;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    border-bottom: var(--border-panel);
 }
 
 #map {
     position: absolute;
-    top: 70px;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 0;
 }
 
-/* Map zoom control: bottom-left, correct order (+ on top, - below), visible */
+/* Map zoom control: soft style to match panels */
 .maplibregl-ctrl-group {
     margin: 0 0 24px 10px !important;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    box-shadow: var(--shadow-soft);
+    border: var(--border-panel) !important;
+    border-radius: var(--radius-sm) !important;
+    overflow: hidden;
 }
 .maplibregl-ctrl-group button {
-    width: 29px !important;
-    height: 29px !important;
+    width: 30px !important;
+    height: 30px !important;
     display: block;
+    transition: background var(--transition);
 }
 .maplibregl-ctrl-group button:first-child {
-    border-radius: 4px 4px 0 0;
+    border-radius: 0;
 }
 .maplibregl-ctrl-group button:last-child {
-    border-radius: 0 0 4px 4px;
+    border-radius: 0;
 }
 .maplibregl-ctrl-group button + button {
-    border-top: 1px solid rgba(0,0,0,0.1);
+    border-top: 1px solid rgba(0,0,0,0.06);
 }
 
 .dashboard-layout {
     position: absolute;
-    top: 70px;
+    top: 10px;
     right: 10px;
     width: 280px;
     z-index: 100;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 10px;
 }
 
 .dashboard-left,
@@ -57,84 +90,189 @@
     width: 100%;
 }
 
-/* All panels: white background and visible border */
+/* Panels: clean white, soft shadow, subtle border */
 .dashboard-panel,
 .alerts-panel,
 .legend-panel,
 .price-panel {
     background: var(--surface);
     border: var(--border-panel);
-    border-radius: 0.5rem;
-    padding: 0.75rem;
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    box-shadow: var(--shadow-soft);
+    transition: box-shadow var(--transition);
+}
+.dashboard-panel:hover,
+.alerts-panel:hover,
+.legend-panel:hover,
+.price-panel:hover {
     box-shadow: var(--shadow-md);
 }
 
 .legend-panel {
     background: var(--surface);
     border: var(--border-panel);
-    border-radius: 0.5rem;
-    padding: 0.75rem;
-    box-shadow: var(--shadow-md);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    box-shadow: var(--shadow-soft);
 }
 
-/* Today's price at top of panel */
+.dashboard-panel h4,
+.alerts-panel h4,
+.legend-panel .legend-title,
+.price-panel h4 {
+    margin: 0 0 10px 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #334155;
+    letter-spacing: -0.01em;
+}
+
+/* Today's price – single clean block */
 .price-today-box {
-    background: #f8fafc;
+    background: var(--surface-subtle);
     border: var(--border-panel);
-    border-radius: 0.5rem;
-    padding: 0.6rem 0.75rem;
-    margin-bottom: 0.5rem;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-bottom: 12px;
     display: flex;
     align-items: baseline;
-    gap: 0.35rem;
+    gap: 6px;
 }
 .price-today-label {
     font-weight: 600;
-    color: #334155;
+    font-size: 0.9rem;
+    color: #475569;
 }
 .price-today-value {
-    font-size: 1.35rem;
+    font-size: 1.5rem;
     font-weight: 700;
+    letter-spacing: -0.02em;
     color: #0f172a;
 }
 .price-today-unit {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #64748b;
+    font-weight: 500;
 }
 .price-upcoming-label {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    color: #64748b;
-    margin-bottom: 0.35rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
 }
 .price-forecast {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 4px;
 }
 .price-day {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.4rem 0.5rem;
-    border-radius: 0.35rem;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    background: #fff;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    background: var(--surface-subtle);
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+    transition: background var(--transition), border-color var(--transition);
 }
 .price-day:hover {
     background: #f1f5f9;
 }
 .price-day.active {
-    border-color: #3b82f6;
+    border-color: rgba(59, 130, 246, 0.35);
     background: #eff6ff;
 }
 .price-day .day-name { font-weight: 500; color: #334155; }
-.price-day .price { font-weight: 700; color: #0f172a; }
-.price-day .wind-info { font-size: 0.8rem; color: #64748b; }
+.price-day .price { font-weight: 700; color: #0f172a; letter-spacing: -0.01em; }
+.price-day .wind-info { font-size: 0.75rem; color: #64748b; }
 .price-day.low .price { color: #16a34a; }
 .price-day.high .price { color: #dc2626; }
+.price-note {
+    margin-top: 10px;
+    font-size: 0.7rem;
+    color: #94a3b8;
+    line-height: 1.35;
+}
+
+/* Live metrics grid */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 14px;
+}
+.metric {
+    background: var(--surface-subtle);
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    border: 1px solid transparent;
+    transition: background var(--transition);
+}
+.metric:hover {
+    background: #f1f5f9;
+}
+.metric-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 2px;
+}
+.metric-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+}
+.metric-unit {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-left: 2px;
+}
+.last-update {
+    margin-top: 10px;
+    font-size: 0.72rem;
+    color: #94a3b8;
+}
+
+/* Alerts panel */
+.alert-count { font-weight: 700; font-size: 1.1rem; color: #0f172a; }
+.alert-threshold { font-size: 0.75rem; color: #64748b; margin-bottom: 8px; }
+.alerts-list { max-height: 140px; overflow-y: auto; }
+.alert-item {
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    transition: background var(--transition);
+}
+.alert-item:hover { background: var(--surface-subtle); }
+.alert-item:last-child { border-bottom: none; }
+.alert-coords { color: #475569; }
+.alert-wind { font-weight: 600; color: #0f172a; }
+.no-alerts { font-size: 0.8rem; color: #94a3b8; padding: 4px 0; }
+
+/* Legend */
+.legend-gradient {
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #b8d4e8 0%, #93c5fd 25%, #86efac 50%, #fde047 75%, #f97316 100%);
+    margin: 6px 0;
+}
+.legend-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: #64748b;
+}
 
 .toggle-panels-btn {
     display: none;
@@ -150,7 +288,7 @@
     /* Mobile: Show toggle button */
     .toggle-panels-btn {
         position: fixed;
-        top: 70px;
+        top: calc(var(--header-height) + 6px);
         right: 10px;
         width: 44px;
         height: 44px;
@@ -176,7 +314,7 @@
     /* Collapsible Panels - Hidden by default on mobile */
     .dashboard-layout {
         position: fixed;
-        top: 70px;
+        top: var(--header-height);
         left: 0;
         right: 0;
         max-height: calc(100vh - 120px);
@@ -226,8 +364,8 @@
     }
     
     #map {
-        position: fixed;
-        top: 60px;
+        position: absolute;
+        top: 0;
         left: 0;
         right: 0;
         bottom: 0;
