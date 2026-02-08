@@ -199,7 +199,7 @@ body {
 }
 
 .dashboard-right {
-    flex: 1;
+    /* flex: 1;  Removed - was covering the map */
     pointer-events: auto;
     display: flex;
     flex-direction: column;
