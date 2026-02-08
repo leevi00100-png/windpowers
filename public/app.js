@@ -144,12 +144,15 @@ async function reverseGeocode(lat, lon) {
         return geocodeCache.get(cacheKey);
     }
 
+    // Nominatim requires a proper Referer - use API's demo service
+    // Fall back to regional description if it fails (CORS often blocked on localhost)
     try {
         const response = await fetch(
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&accept-language=en`,
             {
                 headers: {
-                    'User-Agent': 'WindPowers-Dashboard/1.0'
+                    'User-Agent': 'WindPowers-Dashboard/1.0',
+                    'Referer': 'https://windpowers.app/'
                 }
             }
         );
@@ -161,7 +164,7 @@ async function reverseGeocode(lat, lon) {
             return result;
         }
     } catch (e) {
-        console.warn('Reverse geocoding failed:', e.message);
+        // Silent fail - regional fallback will be used
     }
 
     return null;
@@ -455,7 +458,7 @@ async function init() {
                 minzoom: 0,
                 maxzoom: 19
             }],
-            glyphs: 'https://demotiles.mapbox.com/font/{fontstack}/{range}.pbf'
+            glyphs: 'https://cdn.jsdelivr.net/npm/@mapbox/mapbox-gl-style-spec@13.23.5/font/{fontstack}/{range}.pbf'
         },
         center: CONFIG.center,
         zoom: CONFIG.zoom
