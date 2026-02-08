@@ -1,3 +1,33 @@
+/* Desktop Styles */
+#map {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+}
+
+.dashboard-layout {
+    position: absolute;
+    top: 70px;
+    right: 10px;
+    width: 280px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.dashboard-left,
+.dashboard-right {
+    width: 100%;
+}
+
+.toggle-panels-btn {
+    display: none;
+}
+
 /* Responsive - Mobile Toggle */
 @media (max-width: 768px) {
     /* Hide toggle button by default on desktop */
