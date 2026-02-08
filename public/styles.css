@@ -1,4 +1,9 @@
 /* Desktop Styles */
+.header {
+    position: relative;
+    z-index: 50;
+}
+
 #map {
     position: absolute;
     top: 70px;
@@ -22,6 +27,17 @@
 .dashboard-left,
 .dashboard-right {
     width: 100%;
+}
+
+/* All panels need opaque background */
+.dashboard-panel,
+.alerts-panel,
+.legend-panel,
+.price-panel {
+    background: var(--surface);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    box-shadow: var(--shadow-md);
 }
 
 .legend-panel {
