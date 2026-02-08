@@ -455,7 +455,7 @@ async function init() {
                 minzoom: 0,
                 maxzoom: 19
             }],
-            glyphs: 'https://cdn.jsdelivr.net/npm/@mapbox/mapbox-gl-style-spec@13.23.5/font/{fontstack}/{range}.pbf'
+            glyphs: 'https://demotiles.mapbox.com/font/{fontstack}/{range}.pbf'
         },
         center: CONFIG.center,
         zoom: CONFIG.zoom
@@ -483,7 +483,7 @@ async function init() {
         // Load cached data first, then fetch fresh
         await fetchWindData(false);
         
-        addWindSources();
+        // Note: addWindSources() is called inside fetchWindData() when cache hits
         updateVisualization();
         await updateDashboardMetrics();
         
@@ -717,6 +717,11 @@ function generateGridPoints() {
 }
 
 function addWindSources() {
+    // Remove existing source if it exists (prevents "Source already exists" errors)
+    if (map.getSource('wind-points')) {
+        map.removeSource('wind-points');
+    }
+    
     map.addSource('wind-points', {
         type: 'geojson',
         data: getWindGeoJSON()
@@ -790,7 +795,8 @@ function addWindSources() {
     
     // Load arrow icon and add symbol layer for wind direction arrows
     // This is much faster than DOM markers
-    loadArrowIcon();
+    // TEMPORARILY DISABLED - arrow.png needs to be added
+    // loadArrowIcon();
 }
 
 function getWindGeoJSON() {
