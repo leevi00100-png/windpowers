@@ -85,7 +85,7 @@ Pull requests welcome! For major changes, please open an issue first.
 
 MIT
 
-<!-- Test commit for GitHub Actions VERCEL_TOKEN -->
+<!-- Test commit for GitHub Actions VERCEL_TOKEN secret added -->
 
 ## 🙏 Credits
 
