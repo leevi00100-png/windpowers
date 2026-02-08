@@ -13,6 +13,26 @@
     z-index: 0;
 }
 
+/* Map zoom control: bottom-left, correct order (+ on top, - below), visible */
+.maplibregl-ctrl-group {
+    margin: 0 0 24px 10px !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+.maplibregl-ctrl-group button {
+    width: 29px !important;
+    height: 29px !important;
+    display: block;
+}
+.maplibregl-ctrl-group button:first-child {
+    border-radius: 4px 4px 0 0;
+}
+.maplibregl-ctrl-group button:last-child {
+    border-radius: 0 0 4px 4px;
+}
+.maplibregl-ctrl-group button + button {
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
 .dashboard-layout {
     position: absolute;
     top: 70px;

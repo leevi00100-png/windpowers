@@ -464,7 +464,7 @@ async function init() {
         zoom: CONFIG.zoom
     });
 
-    map.addControl(new maplibregl.NavigationControl(), 'top-left');
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false, showZoom: true }), 'bottom-left');
     
     // Use debounced zoom handler
     map.on('zoom', debouncedUpdateVisualization);
