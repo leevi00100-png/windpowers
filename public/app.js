@@ -1073,21 +1073,26 @@ function generateSamplePredictions() {
 function renderPriceForecast() {
     const container = document.getElementById('price-forecast');
     if (!container || !pricePredictions.length) return;
-    
-    container.innerHTML = pricePredictions.map((p, i) => `
-        <div class="price-day ${p.priceLevel.toLowerCase()} ${i === currentDay ? 'active' : ''}"
-             onclick="setDay(${i})">
+
+    const today = pricePredictions[0];
+    const todayValueEl = document.getElementById('price-today-value');
+    if (todayValueEl && today) todayValueEl.textContent = Math.round(today.predictedPrice / 10);
+
+    const upcoming = pricePredictions.slice(1, 9);
+    container.innerHTML = upcoming.map((p, i) => {
+        const dayIndex = i + 1;
+        return `<div class="price-day ${p.priceLevel.toLowerCase()} ${dayIndex === currentDay ? 'active' : ''}"
+             onclick="setDay(${dayIndex})">
             <div class="day-name">${p.dayName}</div>
             <div class="price">${Math.round(p.predictedPrice / 10)}¢</div>
             <div class="wind-info">${p.avgWindSpeed?.toFixed(1) || '--'} m/s</div>
-        </div>
-    `).join('');
-    
+        </div>`;
+    }).join('');
+
     const current = pricePredictions[currentDay];
     if (current) {
         const priceEl = document.getElementById('price-value');
         const indicatorEl = document.getElementById('price-indicator');
-        
         if (priceEl) priceEl.textContent = Math.round(current.predictedPrice / 10);
         if (indicatorEl) {
             indicatorEl.classList.remove('low', 'high');

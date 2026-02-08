@@ -1,3 +1,11 @@
+/* Variables and base */
+:root {
+    --surface: #ffffff;
+    --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --border-panel: 1px solid rgba(0, 0, 0, 0.12);
+}
+
 /* Desktop Styles */
 .header {
     position: relative;
@@ -49,29 +57,84 @@
     width: 100%;
 }
 
-/* All panels need opaque background */
+/* All panels: white background and visible border */
 .dashboard-panel,
 .alerts-panel,
 .legend-panel,
 .price-panel {
     background: var(--surface);
-    border-radius: 0.75rem;
+    border: var(--border-panel);
+    border-radius: 0.5rem;
     padding: 0.75rem;
     box-shadow: var(--shadow-md);
 }
 
 .legend-panel {
     background: var(--surface);
-    border-radius: 0.75rem;
+    border: var(--border-panel);
+    border-radius: 0.5rem;
     padding: 0.75rem;
     box-shadow: var(--shadow-md);
 }
 
+/* Today's price at top of panel */
+.price-today-box {
+    background: #f8fafc;
+    border: var(--border-panel);
+    border-radius: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+}
+.price-today-label {
+    font-weight: 600;
+    color: #334155;
+}
+.price-today-value {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+.price-today-unit {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+.price-upcoming-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 0.35rem;
+}
 .price-forecast {
     display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 0.35rem;
 }
+.price-day {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.4rem 0.5rem;
+    border-radius: 0.35rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.price-day:hover {
+    background: #f1f5f9;
+}
+.price-day.active {
+    border-color: #3b82f6;
+    background: #eff6ff;
+}
+.price-day .day-name { font-weight: 500; color: #334155; }
+.price-day .price { font-weight: 700; color: #0f172a; }
+.price-day .wind-info { font-size: 0.8rem; color: #64748b; }
+.price-day.low .price { color: #16a34a; }
+.price-day.high .price { color: #dc2626; }
 
 .toggle-panels-btn {
     display: none;

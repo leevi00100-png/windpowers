@@ -99,11 +99,16 @@
                     </div>
                 </div>
                 
-                <!-- RIGHT Column: Electricity Panels -->
+                <!-- RIGHT Column: Electricity - Today top right, upcoming below -->
                 <div class="dashboard-right">
-                    <!-- Price Forecast Panel -->
                     <div class="price-panel" id="price-panel">
-                        <h4>⚡ Energy Price Forecast (Finland)</h4>
+                        <h4>⚡ Electricity (Finland)</h4>
+                        <div class="price-today-box" id="price-today-box">
+                            <span class="price-today-label">Today</span>
+                            <span class="price-today-value" id="price-today-value">--</span>
+                            <span class="price-today-unit">c/kWh</span>
+                        </div>
+                        <div class="price-upcoming-label">Upcoming days</div>
                         <div class="price-forecast" id="price-forecast"></div>
                         <div class="price-note">
                             <small>Prediction based on wind & temperature correlation</small>
