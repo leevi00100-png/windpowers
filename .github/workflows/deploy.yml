@@ -6,60 +6,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-preview:
-    if: github.ref != 'refs/heads/main'
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          
+
       - name: Install Vercel CLI
         run: npm install -g vercel@latest
-        
-      - name: Pull Preview Environment
-        run: vercel pull --environment=preview --yes
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        
-      - name: Build
-        run: vercel build
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        
-      - name: Deploy to Preview
-        run: vercel deploy --prebuilt
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
-  deploy-production:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          
-      - name: Install Vercel CLI
-        run: npm install -g vercel@latest
-        
-      - name: Pull Production Environment
-        run: vercel pull --environment=production --yes
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        
-      - name: Build
-        run: vercel build --prod
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy to Production
-        run: vercel deploy --prebuilt --prod
+      - name: Pull and Build
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            vercel pull --environment=production --yes
+            vercel build --prod
+            vercel deploy --prebuilt --prod
+          else
+            vercel pull --environment=preview --yes
+            vercel build
+            vercel deploy --prebuilt
+          fi
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
