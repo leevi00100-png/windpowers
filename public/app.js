@@ -27,6 +27,174 @@ let lastUpdate = null;
 let currentZoom = CONFIG.zoom;
 let viewportBounds = null;
 
+// ============ REVERSE GEOCODING ============
+
+// Major Nordic cities lookup with approximate coordinates
+const NORDIC_CITIES = [
+    { name: 'Helsinki', lat: 60.1699, lon: 24.9384, country: 'Finland' },
+    { name: 'Stockholm', lat: 59.3293, lon: 18.0686, country: 'Sweden' },
+    { name: 'Oslo', lat: 59.9139, lon: 10.7522, country: 'Norway' },
+    { name: 'Copenhagen', lat: 55.6761, lon: 12.5683, country: 'Denmark' },
+    { name: 'Reykjavik', lat: 64.1466, lon: -21.9426, country: 'Iceland' },
+    { name: 'Turku', lat: 60.4518, lon: 22.2666, country: 'Finland' },
+    { name: 'Tampere', lat: 61.4991, lon: 23.7871, country: 'Finland' },
+    { name: 'Oulu', lat: 65.0121, lon: 25.4650, country: 'Finland' },
+    { name: 'Gothenburg', lat: 57.7089, lon: 11.9746, country: 'Sweden' },
+    { name: 'Malmö', lat: 55.6050, lon: 13.0038, country: 'Sweden' },
+    { name: 'Uppsala', lat: 59.8582, lon: 17.6383, country: 'Sweden' },
+    { name: 'Bergen', lat: 60.3913, lon: 5.3221, country: 'Norway' },
+    { name: 'Trondheim', lat: 63.4349, lon: 10.3954, country: 'Norway' },
+    { name: 'Aarhus', lat: 56.1629, lon: 10.2039, country: 'Denmark' },
+    { name: 'Odense', lat: 55.4038, lon: 10.4024, country: 'Denmark' },
+    { name: 'Tromsø', lat: 69.6496, lon: 18.9559, country: 'Norway' },
+    { name: 'Kuopio', lat: 63.0225, lon: 27.8013, country: 'Finland' },
+    { name: 'Jyväskylä', lat: 62.2415, lon: 25.7583, country: 'Finland' },
+    { name: 'Vaasa', lat: 63.0964, lon: 21.6158, country: 'Finland' },
+    { name: 'Pori', lat: 61.4833, lon: 21.7833, country: 'Finland' },
+    { name: 'Luleå', lat: 65.5848, lon: 22.1567, country: 'Sweden' },
+    { name: 'Umeå', lat: 63.8257, lon: 20.2632, country: 'Sweden' },
+    { name: 'Bodø', lat: 67.2840, lon: 14.3858, country: 'Norway' },
+    { name: ' Rovaniemi', lat: 66.5039, lon: 25.7294, country: 'Finland' },
+    { name: 'Hämeenlinna', lat: 61.0046, lon: 24.4513, country: 'Finland' },
+    { name: 'Lahti', lat: 60.9827, lon: 25.6615, country: 'Finland' },
+    { name: 'Joensuu', lat: 62.6010, lon: 29.7636, country: 'Finland' },
+    { name: 'Kouvola', lat: 60.8674, lon: 26.7041, country: 'Finland' },
+    { name: 'Kokkola', lat: 63.8385, lon: 23.1305, country: 'Finland' },
+    { name: 'Mikkeli', lat: 61.6886, lon: 27.2721, country: 'Finland' },
+    { name: 'Kemi', lat: 65.7358, lon: 24.5614, country: 'Finland' },
+    { name: 'Kristiansand', lat: 58.1586, lon: 8.0065, country: 'Norway' },
+    { name: 'Drammen', lat: 59.7446, lon: 10.2040, country: 'Norway' },
+    { name: 'Fredrikstad', lat: 59.2842, lon: 10.9030, country: 'Norway' },
+    { name: 'Skien', lat: 59.2078, lon: 9.5526, country: 'Norway' },
+    { name: 'Täby', lat: 59.4449, lon: 18.0689, country: 'Sweden' },
+    { name: 'Västerås', lat: 59.6162, lon: 16.5528, country: 'Sweden' },
+    { name: 'Örebro', lat: 59.2746, lon: 15.2066, country: 'Sweden' },
+    { name: 'Linköping', lat: 58.4108, lon: 15.6214, country: 'Sweden' },
+    { name: 'Helsingborg', lat: 56.0467, lon: 12.6944, country: 'Sweden' },
+    { name: 'Jönköping', lat: 57.3395, lon: 14.1786, country: 'Sweden' },
+    { name: 'Aalborg', lat: 57.0480, lon: 9.9187, country: 'Denmark' },
+    { name: 'Esbjerg', lat: 55.4766, lon: 8.4604, country: 'Denmark' }
+];
+
+// Cache for reverse geocoding results
+const geocodeCache = new Map();
+
+// Calculate distance between two points using Haversine formula
+function haversineDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Earth's radius in km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+// Find the nearest city from the lookup table
+function findNearestCity(lat, lon) {
+    let nearest = null;
+    let minDistance = Infinity;
+
+    for (const city of NORDIC_CITIES) {
+        const distance = haversineDistance(lat, lon, city.lat, city.lon);
+        if (distance < minDistance) {
+            minDistance = distance;
+            nearest = city;
+        }
+    }
+
+    // Only return city if within 100km, otherwise return null (use region fallback)
+    return minDistance <= 100 ? nearest : null;
+}
+
+// Get regional description for areas far from major cities
+function getRegionalDescription(lat, lon) {
+    // Nordic region detection based on coordinates
+    if (lat >= 66) return 'Northern Finland';
+    if (lat >= 63 && lon >= 25) return 'Northern Finland';
+    if (lat >= 63 && lon < 25) return 'Central Finland';
+    if (lat >= 60) {
+        if (lon < 20) return 'Western Finland';
+        if (lon < 25) return 'Southern Finland';
+        return 'Eastern Finland';
+    }
+    if (lat >= 59 && lon < 18) return 'Gulf of Bothnia';
+    if (lat >= 55) {
+        if (lon < 12) return 'Western Sweden';
+        if (lon < 18) return 'Eastern Sweden';
+        return 'Baltic Sea';
+    }
+    if (lat >= 57) {
+        if (lon < 10) return 'Southern Norway';
+        if (lon < 14) return 'Southern Sweden';
+        return 'Denmark';
+    }
+    if (lon < 5) return 'North Sea';
+    if (lon < 10) return 'Norwegian Coast';
+    return 'Nordic Region';
+}
+
+// Reverse geocode using Nominatim API (async)
+async function reverseGeocode(lat, lon) {
+    const cacheKey = `${lat.toFixed(2)},${lon.toFixed(2)}`;
+    
+    // Check cache first
+    if (geocodeCache.has(cacheKey)) {
+        return geocodeCache.get(cacheKey);
+    }
+
+    try {
+        const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&accept-language=en`,
+            {
+                headers: {
+                    'User-Agent': 'WindPowers-Dashboard/1.0'
+                }
+            }
+        );
+
+        if (response.ok) {
+            const data = await response.json();
+            const result = data.display_name || null;
+            geocodeCache.set(cacheKey, result);
+            return result;
+        }
+    } catch (e) {
+        console.warn('Reverse geocoding failed:', e.message);
+    }
+
+    return null;
+}
+
+// Get location name - first try city lookup, then regional fallback
+async function getLocationName(lat, lon) {
+    // Try to find nearest major city from lookup
+    const nearestCity = findNearestCity(lat, lon);
+    
+    if (nearestCity) {
+        return nearestCity.name;
+    }
+
+    // Try Nominatim API as fallback (async)
+    try {
+        const nominatimResult = await reverseGeocode(lat, lon);
+        if (nominatimResult) {
+            // Extract city/town name from full address
+            const parts = nominatimResult.split(', ');
+            if (parts.length >= 2) {
+                return parts[0]; // Return the first part (city/town name)
+            }
+            return nominatimResult;
+        }
+    } catch (e) {
+        // Continue to regional fallback
+    }
+
+    // Fallback to regional description
+    return getRegionalDescription(lat, lon);
+}
+
 // Debounce helper
 function debounce(func, wait) {
     let timeout;
@@ -317,7 +485,7 @@ async function init() {
         
         addWindSources();
         updateVisualization();
-        updateDashboardMetrics();
+        await updateDashboardMetrics();
         
         // Load turbine data
         await fetchTurbineData();
@@ -364,7 +532,7 @@ async function fetchWindData(forceRefresh = false) {
                 if (map && map.loaded()) {
                     addWindSources();
                     updateVisualization();
-                    updateDashboardMetrics();
+                    await updateDashboardMetrics();
                     updateLastUpdateTime();
                     showUpdateIndicator();
                     console.log(`📦 Using cached data: ${windData.length} wind points`);
@@ -393,7 +561,7 @@ async function fetchWindData(forceRefresh = false) {
                 if (map && map.loaded()) {
                     addWindSources();
                     updateVisualization();
-                    updateDashboardMetrics();
+                    await updateDashboardMetrics();
                     updateLastUpdateTime();
                     showUpdateIndicator();
                     console.log(`📦 Data loaded: ${windData.length} wind points`);
@@ -410,7 +578,7 @@ async function fetchWindData(forceRefresh = false) {
                 windData = cached;
                 if (map && map.loaded()) {
                     updateVisualization();
-                    updateDashboardMetrics();
+                    await updateDashboardMetrics();
                     console.log(`📦 Fallback to cache: ${windData.length} wind points`);
                 }
             }
@@ -465,7 +633,7 @@ function showUpdateIndicator() {
     }
 }
 
-function updateDashboardMetrics() {
+async function updateDashboardMetrics() {
     if (!windData.length) return;
     
     let totalWind = 0;
@@ -502,11 +670,11 @@ function updateDashboardMetrics() {
     document.getElementById('max-temp').textContent = dashboardMetrics.maxTemperature;
     document.getElementById('alert-count').textContent = dashboardMetrics.alertCount;
     
-    // Update alerts panel
-    updateAlertsPanel();
+    // Update alerts panel (async)
+    await updateAlertsPanel();
 }
 
-function updateAlertsPanel() {
+async function updateAlertsPanel() {
     const alerts = windData
         .map(p => ({ ...p, forecast: p.forecasts[currentDay] }))
         .filter(p => p.forecast && p.forecast.windSpeed >= 12)
@@ -518,9 +686,17 @@ function updateAlertsPanel() {
         if (alerts.length === 0) {
             container.innerHTML = '<div class="no-alerts">No high wind alerts</div>';
         } else {
-            container.innerHTML = alerts.map(a => `
+            // Get location names for each alert
+            const alertsWithNames = await Promise.all(
+                alerts.map(async (a) => {
+                    const locationName = await getLocationName(a.lat, a.lon);
+                    return { ...a, locationName };
+                })
+            );
+            
+            container.innerHTML = alertsWithNames.map(a => `
                 <div class="alert-item">
-                    <span class="alert-coords">${a.lat.toFixed(1)}°N, ${a.lon.toFixed(1)}°E</span>
+                    <span class="alert-coords">${a.locationName}</span>
                     <span class="alert-wind">${a.forecast.windSpeed.toFixed(1)} m/s</span>
                 </div>
             `).join('');
@@ -823,11 +999,11 @@ function setupControls() {
     const slider = document.getElementById('day-slider');
     const label = document.getElementById('day-label');
     
-    slider.addEventListener('input', (e) => {
+    slider.addEventListener('input', async (e) => {
         currentDay = parseInt(e.target.value);
         label.textContent = dayNames[currentDay];
         updateVisualization();
-        updateDashboardMetrics();
+        await updateDashboardMetrics();
     });
 }
 
@@ -913,13 +1089,13 @@ function renderPriceForecast() {
     }
 }
 
-function setDay(day) {
+async function setDay(day) {
     currentDay = day;
     document.getElementById('day-slider').value = day;
     document.getElementById('day-label').textContent = dayNames[day];
     updateVisualization();
     renderPriceForecast();
-    updateDashboardMetrics();
+    await updateDashboardMetrics();
     
     // Notify server
     if (socket) {
@@ -1120,30 +1296,65 @@ function updateTurbineVisualization() {
 }
 
 // Toggle panels on mobile
-let panelsVisible = true;
+let panelsVisible = false; // Hidden by default on mobile
 
 function initTogglePanels() {
     const toggleBtn = document.getElementById('toggle-panels');
-    const panels = document.getElementById('panels-container') || document.querySelector('.dashboard-layout');
+    const panels = document.querySelector('.dashboard-layout');
+    const mapEl = document.getElementById('map');
     
-    if (toggleBtn && panels) {
-        toggleBtn.addEventListener('click', () => {
-            panelsVisible = !panelsVisible;
-            panels.classList.toggle('collapsed', !panelsVisible);
-            toggleBtn.classList.toggle('hidden', !panelsVisible);
-            
-            // Update icon
-            const icon = toggleBtn.querySelector('#toggle-icon');
-            if (icon) {
-                icon.textContent = panelsVisible ? '📊' : '🗺️';
-            }
-        });
+    if (!toggleBtn || !panels) return;
+    
+    // On mobile, panels start hidden
+    if (window.innerWidth <= 768) {
+        panels.classList.remove('visible');
+        panelsVisible = false;
+        toggleBtn.style.display = 'flex';
+        const icon = toggleBtn.querySelector('#toggle-icon');
+        if (icon) icon.textContent = '📊';
+    }
+    
+    // Toggle button click handler
+    toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePanels();
+    });
+    
+    // Add touch feedback
+    toggleBtn.addEventListener('touchstart', () => {
+        toggleBtn.style.transform = 'scale(0.95)';
+    });
+    toggleBtn.addEventListener('touchend', () => {
+        toggleBtn.style.transform = '';
+    });
+}
+
+function togglePanels() {
+    const toggleBtn = document.getElementById('toggle-panels');
+    const panels = document.querySelector('.dashboard-layout');
+    const mapEl = document.getElementById('map');
+    
+    if (!toggleBtn || !panels) return;
+    
+    panelsVisible = !panelsVisible;
+    panels.classList.toggle('visible', panelsVisible);
+    toggleBtn.classList.toggle('hidden', !panelsVisible);
+    
+    // Update icon
+    const icon = toggleBtn.querySelector('#toggle-icon');
+    if (icon) {
+        icon.textContent = panelsVisible ? '🗺️' : '📊';
+    }
+    
+    // Toggle map z-index so map becomes interactive when panels are hidden
+    if (mapEl) {
+        mapEl.style.zIndex = panelsVisible ? '0' : '50';
     }
 }
 
 // Initialize on DOM load
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initTogglePanels);
-} else {
+document.addEventListener('DOMContentLoaded', () => {
+    init();
+    loadPricePredictions();
     initTogglePanels();
-}
+});
