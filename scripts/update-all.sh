@@ -3,7 +3,7 @@
 # Updates weather data and electricity prices
 # Runs via cron daily
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/.."
 
 echo "================================"
 echo "WindPowers Daily Update"

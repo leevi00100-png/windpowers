@@ -91,41 +91,40 @@ class LinearRegression {
     }
 }
 
-// Feature extraction
-function extractFeatures(windData, priceData, targetDate) {
-    // Calculate average wind speed for Finland region
-    const finlandPoints = windData.filter(p => p.lat >= 60 && p.lat <= 70 && p.lon >= 20 && p.lon <= 32);
-    
-    const avgWindSpeed = finlandPoints.reduce((sum, p) => {
-        const forecast = p.forecasts[0]; // Today's forecast
-        return sum + (forecast?.windSpeed || 0);
-    }, 0) / (finlandPoints.length || 1);
-    
-    const avgTemperature = finlandPoints.reduce((sum, p) => {
-        const forecast = p.forecasts[0];
-        return sum + (forecast?.temperature || 0);
-    }, 0) / (finlandPoints.length || 1);
-    
-    // Time features
+// Feature extraction. dayIndexInPriceData = 0..N; for 0..8 we use wind forecast for that day;
+// for older dates we use synthetic values (no historical weather API).
+function extractFeatures(windData, priceData, targetDate, dayIndexInPriceData) {
+    const finlandPoints = (windData && Array.isArray(windData)) ? windData.filter(p => p.lat >= 60 && p.lat <= 70 && p.lon >= 20 && p.lon <= 32) : [];
+    const hasForecastForDay = dayIndexInPriceData >= 0 && dayIndexInPriceData < 9 && finlandPoints.length > 0;
+
+    let avgWindSpeed, avgTemperature;
+    if (hasForecastForDay) {
+        avgWindSpeed = finlandPoints.reduce((sum, p) => sum + (p.forecasts[dayIndexInPriceData]?.windSpeed || 0), 0) / (finlandPoints.length || 1);
+        avgTemperature = finlandPoints.reduce((sum, p) => sum + (p.forecasts[dayIndexInPriceData]?.temperature || 0), 0) / (finlandPoints.length || 1);
+    } else {
+        // Synthetic values for historical dates (reproducible from date string)
+        const seed = String(targetDate).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+        avgWindSpeed = 3 + (seed % 100) / 100 * 8;
+        avgTemperature = -5 + (seed % 100) / 100 * 20;
+    }
+
     const date = new Date(targetDate);
     const hour = date.getHours();
     const dayOfWeek = date.getDay();
     const month = date.getMonth();
     const isWinter = month >= 10 || month <= 2 ? 1 : 0;
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6 ? 1 : 0;
-    
-    // Peak hours
     const isMorningPeak = (hour >= 7 && hour <= 9) ? 1 : 0;
     const isEveningPeak = (hour >= 17 && hour <= 20) ? 1 : 0;
-    
+
     return [
-        avgWindSpeed,           // Feature 0: Wind speed (negative correlation with price)
-        avgTemperature,         // Feature 1: Temperature (negative in winter = high price)
-        isWinter,               // Feature 2: Winter flag
-        isMorningPeak,          // Feature 3: Morning peak
-        isEveningPeak,          // Feature 4: Evening peak
-        isWeekend,              // Feature 5: Weekend (usually lower prices)
-        avgWindSpeed * isWinter // Feature 6: Interaction: low wind + winter = very high
+        avgWindSpeed,
+        avgTemperature,
+        isWinter,
+        isMorningPeak,
+        isEveningPeak,
+        isWeekend,
+        avgWindSpeed * isWinter
     ];
 }
 
@@ -140,27 +139,29 @@ async function trainModel() {
     try {
         const windFile = JSON.parse(fs.readFileSync(CONFIG.windDataFile, 'utf-8'));
         windData = windFile.data || windFile;
-        
         const priceFile = JSON.parse(fs.readFileSync(CONFIG.priceDataFile, 'utf-8'));
         priceData = priceFile.data || priceFile;
     } catch (e) {
         console.log('Data files not found. Run fetch scripts first.');
         console.log('Generating sample training data...');
-        
-        // Generate sample data for demo
         windData = generateSampleWindData();
         priceData = generateSamplePriceData();
     }
-    
+
+    if (!Array.isArray(windData)) windData = [];
+    if (!Array.isArray(priceData) || priceData.length === 0) {
+        console.log('Price data missing or invalid; using sample price data.');
+        priceData = generateSamplePriceData();
+    }
+
     console.log(`Wind data points: ${windData.length}`);
     console.log(`Price data records: ${priceData.length}`);
-    
-    // Prepare training data
+
     const X = [];
     const y = [];
-    
-    priceData.forEach(dayData => {
-        const features = extractFeatures(windData, priceData, dayData.date);
+
+    priceData.forEach((dayData, index) => {
+        const features = extractFeatures(windData, priceData, dayData.date, index);
         X.push(features);
         y.push(dayData.avgPrice || 50);
     });

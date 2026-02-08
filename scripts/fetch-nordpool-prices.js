@@ -48,6 +48,21 @@ function fetchNordpoolData() {
     });
 }
 
+// Validate Nordpool API response: must be an array of records with date and price info
+function validatePriceData(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    const arr = Array.isArray(raw) ? raw : (raw.data || raw.rows || raw.values);
+    if (!Array.isArray(arr) || arr.length === 0) return null;
+    const first = arr[0];
+    const hasDate = first && (first.date || first.Date || first.startTime);
+    const hasPrice = first && (
+        typeof (first.avgPrice ?? first.value ?? first.price) === 'number' ||
+        (Array.isArray(first.hourlyPrices) && first.hourlyPrices.length > 0)
+    );
+    if (!hasDate || !hasPrice) return null;
+    return arr;
+}
+
 // Alternative: Use ENTSO-E Transparency Platform (free with registration)
 // https://transparency.entsoe.eu/
 async function fetchEntsoeData(apiKey) {
@@ -113,28 +128,29 @@ async function main() {
     
     // Try fetching real data
     console.log('Attempting to fetch Nordpool data...');
-    let data = await fetchNordpoolData();
-    
-    if (!data) {
-        console.log('Using sample data for development');
-        data = generateSamplePrices();
+    const raw = await fetchNordpoolData();
+    const validated = validatePriceData(raw);
+    const data = validated || generateSamplePrices();
+    if (!validated) {
+        if (raw != null) console.log('API response invalid or unexpected shape; using sample data.');
+        else console.log('Using sample data for development');
     }
-    
-    // Save data
+    const source = validated ? 'nordpool' : 'sample';
     const output = {
         generated: new Date().toISOString(),
-        source: data.length ? 'sample' : 'nordpool',
+        source,
         data
     };
-    
+
     const dir = path.dirname(CONFIG.outputFile);
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
     }
-    
+
     fs.writeFileSync(CONFIG.outputFile, JSON.stringify(output, null, 2));
     console.log(`\nSaved to ${CONFIG.outputFile}`);
     console.log(`Records: ${data.length} days`);
+    console.log(`Source: ${output.source}`);
 }
 
 main().catch(console.error);

@@ -54,7 +54,7 @@ const NORDIC_CITIES = [
     { name: 'Luleå', lat: 65.5848, lon: 22.1567, country: 'Sweden' },
     { name: 'Umeå', lat: 63.8257, lon: 20.2632, country: 'Sweden' },
     { name: 'Bodø', lat: 67.2840, lon: 14.3858, country: 'Norway' },
-    { name: ' Rovaniemi', lat: 66.5039, lon: 25.7294, country: 'Finland' },
+    { name: 'Rovaniemi', lat: 66.5039, lon: 25.7294, country: 'Finland' },
     { name: 'Hämeenlinna', lat: 61.0046, lon: 24.4513, country: 'Finland' },
     { name: 'Lahti', lat: 60.9827, lon: 25.6615, country: 'Finland' },
     { name: 'Joensuu', lat: 62.6010, lon: 29.7636, country: 'Finland' },
@@ -1111,11 +1111,6 @@ async function setDay(day) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    init();
-    loadPricePredictions();
-});
-
 // ============ TURBINE FUNCTIONS ============
 
 let turbineData = [];
@@ -1276,24 +1271,6 @@ function addTurbineSources() {
             'text-color': '#1e293b'
         }
     });
-}
-
-function getTurbineGeoJSON() {
-    return {
-        type: 'FeatureCollection',
-        features: turbineData.map(turbine => ({
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [turbine.lon, turbine.lat]
-            },
-            properties: {
-                name: turbine.name,
-                count: turbine.count,
-                type: turbine.type
-            }
-        }))
-    };
 }
 
 function updateTurbineVisualization() {

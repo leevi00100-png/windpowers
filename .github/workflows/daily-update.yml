@@ -21,19 +21,15 @@ jobs:
           
       - name: Install dependencies
         run: npm install
-        working-directory: ./windpowers
-        
+
       - name: Fetch wind data
         run: node scripts/fetch-wind-data.js
-        working-directory: ./windpowers
-        
+
       - name: Fetch Nordpool prices
         run: node scripts/fetch-nordpool-prices.js
-        working-directory: ./windpowers
-        
+
       - name: Generate price predictions
         run: node scripts/price-prediction.js
-        working-directory: ./windpowers
         
       - name: Commit and push changes
         run: |
